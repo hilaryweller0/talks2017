@@ -1,0 +1,21 @@
+1. The Navier-Stokes Equations
+2. Finite Differences
+
+Practical 1: Choose a term from the RHS of the NS equations and write a code to solve the rate of change = that term (in 1d or 0d). Give some examples, eg linear or non-linear advection.
+
+3. Analysis of Accuracy and Stability
+
+Practical 2: Implement a better numerical method
+
+4. Dispersion and Staggered Grids
+
+Practical 3: Increase the complexity of your code, for example in one of the following ways:
+
+a) Make it 2d
+b) Make it non-linear
+c) Add another term
+d) Solve a system of equations (eg SWE)
+e) Use a non-uniform grid
+f) Use an implicit solution
+
+5. Semi-implicit solution of wave equtaions (probably not included)

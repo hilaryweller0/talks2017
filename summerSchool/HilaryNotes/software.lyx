@@ -1,0 +1,1222 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass report
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Software Architecture
+\end_layout
+
+\begin_layout Standard
+There are numerous very bad programming practices in science.
+ We will cover a few ways in which things could be done better.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
+filename "goodCode.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Testing
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:testing"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Code should be tested in situations where you know exactly what the output
+ should.
+ This is a crucial part of writing bug-free code.
+ Every code and every function within a code should be tested.
+ For a function, you should think of a variety of different inputs for which
+ you know the output and write a tests that calls the function with those
+ inputs and checks that the outputs are as expected.
+ There may also be situations where a function is expected to give an error
+ message.
+ The tests should include input that you know should give an error message.
+\end_layout
+
+\begin_layout Standard
+There are python modules to help with testing such as 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+unittest
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+nosetest
+\end_layout
+
+\end_inset
+
+.
+ Tools like 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+coverage
+\end_layout
+
+\end_inset
+
+ can show you how much of your code you have tested.
+ There is good integration with some integrated development environments
+ (IDEs), such as 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+PyCharm
+\end_layout
+
+\end_inset
+
+, which helps with most aspects of writing, testing, debugging, and running
+ code.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Debugging
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+IDEs (Interactive Development Environments, such as PyCharm) usually have
+ useful interactive debugging tools which allow you to set breakpoints in
+ the code and see, for example, what all variable values are.
+ There are also python libraries such as 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+pdb
+\end_layout
+
+\end_inset
+
+ which stop the code at the line 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+pdb.set_trace()
+\end_layout
+
+\end_inset
+
+ and then allow you to step through and see what all variable values are.
+ You should also be able to debug by hand without a dedicated tool, using
+ lots of print statements.
+ Here are some tips:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+You should try to re-produce the problem with the simplest code and with
+ arrays set as small as possible so that the code runs (and crashes) quickly
+ and so that you can re-produce the calculations by hand in order to check
+ what the code is doing.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+You should have some idea of where things go wrong.
+ Start by putting in print statements at a point in the code shortly before
+ everything went wrong.
+ Print out variables that you think might be related to the problem and
+ check that their values are as expected.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Put in print statements further up where you think that everything was working
+ fine, printing out relevant variables.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Using more print statements, find where in between things go wrong.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+When you have found and corrected the bug, delete all the de-bugging code
+ rather than commenting it out.
+ You do not want your code littered with commented out code.
+ You might like to save all of the debug statements in a branch of a version
+ control repository so that you can refer to it later.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Think how this bug happened and how you can better test your code in future
+ to avoid bugs like that happening again.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Version Control using git
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:git"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Very quickly after starting to write code, you will find that you have modified
+ the code and it doesn't do what you want any more, you have multiple versions
+ and you can't keep track, two people are working on the same code and getting
+ in a muddle, you cannot reproduce the results that you got yesterday.
+ You need to be using version control software like 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+git
+\end_layout
+
+\end_inset
+
+ and a repository hosting service like 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/
+\end_layout
+
+\end_inset
+
+, which also provides archiving and backup.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+There are numerous online resources for how to use 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+git
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+github
+\end_layout
+
+\end_inset
+
+.
+ This will therefore be a tiny introduction.
+ A more comprehensive introduction is at, for example:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://swcarpentry.github.io/git-novice/
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+and
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://product.hubspot.com/blog/git-and-github-tutorial-for-beginners
+\end_layout
+
+\end_inset
+
+.
+ You should really also know about collaborating, branching and merging
+ in 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+git
+\end_layout
+
+\end_inset
+
+ but this little introduction will cover setting up a repository, adding
+ to it, pushing and pulling from a remote repository and recovering old
+ versions.
+ This introduction draws heavily from the Software Carpentry introduction.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Setting up 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+git
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These are the commands that I used to set up 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+git
+\end_layout
+
+\end_inset
+
+ for my login on the machines at Cambridge:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git config --global user.name "Hilary Weller"
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git config --global user.email "h.weller@reading.ac.uk"
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git config --global color.ui "auto"
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git config --global core.editor "gedit --wait --new-window"
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Setting up a Local Repository
+\end_layout
+
+\begin_layout Standard
+Next set up a local repository for my 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+helloWorld.py
+\end_layout
+
+\end_inset
+
+ code:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Initialise the local directory as a git repository
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git init
+\end_layout
+
+\begin_layout Plain Layout
+
+# Add files to the repo, check and commit them with a commit message
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git add helloWorld.py
+\end_layout
+
+\begin_layout Plain Layout
+
+# Now the file is staged for commit.
+ This can be checked and committed:
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git status
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git commit -m "First commit"
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Sign up for a 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+github
+\end_layout
+
+\end_inset
+
+ account and create a Remote Repository
+\end_layout
+
+\begin_layout Itemize
+Sign up for a free account allowing unlimited public code at 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Create a new repository at 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/new
+\end_layout
+
+\end_inset
+
+ or by following the links.
+ I created a repository called 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+helloWorld
+\end_layout
+
+\end_inset
+
+.
+ My new 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+github
+\end_layout
+
+\end_inset
+
+ user name is 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+studentSpencer0
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Link the local and remote repositories
+\end_layout
+
+\begin_layout Standard
+Copy the url of your new repository.
+ Mine is 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/studentSpencer0/helloWorld
+\end_layout
+
+\end_inset
+
+.
+ Then, on the command line:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git remote add origin https://github.com/studentSpencer0/helloWorld
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git remote -v     # (to verify the new remove URL)
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Push the changes in your local repository to GitHub.
+\end_layout
+
+\begin_layout Standard
+If you initialised the remote repository with a README pull and merge before
+ push
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git pull origin master
+\end_layout
+
+\end_inset
+
+After closing the window that asks you to write a merge message you can
+ now do:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git push origin master
+\end_layout
+
+\end_inset
+
+ Now have a look at the url for your repository and see your new code there.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Some more configuration
+\end_layout
+
+\begin_layout Standard
+To avoid always having to specify
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+origin master
+\end_layout
+
+\end_inset
+
+when pushing and pulling, you can set some more defaults
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git config --global pull.default matching
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git branch --set-upstream-to=origin/master master
+\end_layout
+
+\end_inset
+
+Now to push and pull you only need:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git pull
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git push
+\end_layout
+
+\end_inset
+
+You can avoid entering your 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+github
+\end_layout
+
+\end_inset
+
+ username and password every time you push by typing:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+git config credential.helper store
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Adding all suitable files
+\end_layout
+
+\begin_layout Standard
+We may have a directory structure full of files that we want to add to the
+ repository.
+ However it is important not to add large or binary files to a git repository.
+ Therefore we need a 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+.gitignore
+\end_layout
+
+\end_inset
+
+ file to tell git not to add files with well known extensions that imply
+ that they are binary files.
+ You can copy my 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+.gitignore
+\end_layout
+
+\end_inset
+
+ file:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lstlisting}[basicstyle=
+\backslash
+scriptsize]
+\end_layout
+
+\begin_layout Plain Layout
+
+$ wget https://raw.githubusercontent.com/studentSpencer0/helloWorld/master/.gitigno
+re
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lstlisting}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You can now add all files in the directory structure to the repository without
+ the risk of adding large or binary files
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git add .
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Retrieving Old Versions
+\end_layout
+
+\begin_layout Itemize
+In order to see a list of commit ids and messages:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git log
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+If you make some changes to a file (say 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+helloWorld.py
+\end_layout
+
+\end_inset
+
+), you can see the differences between what is on disk and the version of
+ the previous commit:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git diff helloWorld.py
+\end_layout
+
+\begin_layout Plain Layout
+
+# or if you have already added helloWorld.py but not committed:
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git diff HEAD helloWorld.py
+\end_layout
+
+\begin_layout Plain Layout
+
+# or if you want to compare helloWorld.py to the version from 
+\end_layout
+
+\begin_layout Plain Layout
+
+# three commits ago:
+\end_layout
+
+\begin_layout Plain Layout
+
+$ git diff HEAD~3 helloWorld.py
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+You can also show the difference between a file on disk and a previous commit
+ using the commit id:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git diff cb27fc3e526dbdcd49b70b3f08a520ae271f8be5 helloWorld.py
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+To show what changes were made at an older commit rather than differences
+ between working directory and a commit:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git show HEAD~3 helloWorld.py
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+If you need to discard the changes that you have made and go back to the
+ most recent commit:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git checkout -- helloWorld.py
+\end_layout
+
+\end_inset
+
+or to go back to a particular commit (just using first few letters of the
+ commit id):
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ git checkout f22b25e helloWorld.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,606 @@
+
+\chapter{Numerical Analysis}
+
+\stepwise{
+
+Numerical analysis is about predicting mathematically how a numerical
+method will behave before coding it up and testing it. There are many
+aspects of numerical analysis but in this chapter, order of accuracy
+and stability will be discussed. 
+
+\step{
+
+
+\section{Accuracy and Order of Accuracy}
+
+The accuracy of a numerical method is closely associated with the
+order of accuracy. If a finite difference scheme uses a grid spacing
+$\Delta x$, and if errors are bounded by $C\Delta x^{n}$ for some
+constant $C$, then the method is $n$th order accurate. Errors converge
+to zero at a rate proportional to $\Delta x^{n}$ as $\Delta x$ decreases.
+This can be written $O(\Delta x^{n})$. Accuracy and order of accuracy
+can be analysed using Taylor series. }\step{
+
+
+\subsection{Accuracy of CTCS discretisations}
+
+CTCS uses centred in space and time discretisations for gradients:
+\begin{equation}
+\frac{\partial\phi}{\partial x}_{j}=\phi_{j}^{\prime}\approx\opttext{\frac{\phi_{j+1}-\phi_{j-1}}{2\Delta x}}
+\end{equation}
+}\step{To derive this formula and find is order of accuracy, we need
+to write down the Taylor series approximations for $\phi_{j-1}$ and
+$\phi_{j+1}$ about $\phi_{j}$:
+\begin{align*}
+\phi_{j-1} & \approx\opttext{\phi_{j}-\Delta x\phi_{j}^{\prime}+\frac{\Delta x^{2}}{2!}\phi_{j}^{\prime\prime}-\frac{\Delta x^{3}}{3!}\phi_{j}^{\prime\prime\prime}+\cdots}\\
+\phi_{j+1} & \approx\opttext{\phi_{j}+\Delta x\phi_{j}^{\prime}+\frac{\Delta x^{2}}{2!}\phi_{j}^{\prime\prime}+\frac{\Delta x^{3}}{3!}\phi_{j}^{\prime\prime\prime}+\cdots}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .
+\end{align*}
+
+
+}}\clearpage{}\stepwise{
+
+We can assume that we know $\phi_{j}$, $\phi_{j-1}$, $\phi_{j+1}$.
+We want to find the most accurate approximation for $\phi_{j}^{\prime}$
+so we eliminate the largest unknown, $\Delta x^{2}\phi_{j}^{\prime\prime}$,
+and rearrange to find $\phi_{j}^{\prime}$:
+
+\begin{align*}
+\implies\phi_{j+1}-\phi_{j-1} & \approx\opttext{2\Delta x\phi_{j}^{\prime}+\frac{\Delta x^{3}}{3}\phi_{j}^{\prime\prime\prime}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .\\
+\implies\phi_{j}^{\prime} & \approx\opttext{\frac{\phi_{j+1}-\phi_{j-1}}{2\Delta x}-\frac{\Delta x^{2}}{3!}\phi_{j}^{\prime\prime\prime}}
+\end{align*}
+\vspace{0.1cm}
+\step{
+\begin{itemize}
+\item $\phi_{j}^{\prime\prime\prime}$ is unknown so the leading error term
+is $\frac{\Delta x^{2}}{3!}\phi_{j}^{\prime\prime\prime}$ so CTCS
+is second order accurate.\step{
+\item The error is proportional to $\phi^{\prime\prime\prime}=\partial^{3}\phi/\partial x^{3}$.
+This term makes the numerical solution dispersive - this is a term
+in a dispersion equation.}
+\end{itemize}
+}}
+
+\clearpage{}
+
+
+\subsection{Exercises}
+\begin{enumerate}
+\item Use the Taylor series to find an approximation for $f_{j}^{\prime}$
+in terms of $f_{j}$ and $f_{j-1}$. What order accuracy is it?\vfill{}
+
+\item Derive an uncentred, second order difference formula for $f_{j}^{\prime}$
+that uses $f_{j}$, $f_{j+1}$ and $f_{j+2}$. (And show that it is
+second order accurate) \vfill{}
+
+\item Find a uncentred approximation for $f_{j}^{\prime\prime}$ using $f_{j}$,
+$f_{j+1}$ and $f_{j+2}$. What order accurate is it? 
+\item Derive a second order approximation for $f_{b}^{\prime}$ from $f_{a}$,
+$f_{b}$ and $f_{c}$ at $x$ locations $a<b<c$ when the grid spacing
+is not regular. (And show that it is second order accurate) 
+\end{enumerate}
+\clearpage{}
+
+\optpage{
+
+
+\subsubsection*{Answers}
+\begin{enumerate}
+\item Use the Taylor series to find an approximation for $f_{j}^{\prime}$
+in terms of $f_{j}$ and $f_{j-1}$. What order accuracy is it?
+
+
+Write the Taylor series for $f_{j-1}$ in terms of $f_{j}$:\\
+$f_{j-1}=f_{j}-\Delta xf_{j}^{\prime}+O(\Delta x^{2})$\\
+Rearrange to find $f_{j}^{\prime}$:\\
+$f_{j}^{\prime}=(f_{j}-f_{j-1})/\Delta x+O(\Delta x)$ \\
+Note dividing $O(\Delta x^{2})$ by $\Delta x$ gives $O(\Delta x)$
+so the approximation is first order accurate
+
+\item Derive an uncentred, second order difference formula for $f_{j}^{\prime}$
+that uses $f_{j}$, $f_{j+1}$ and $f_{j+2}$. (And show that it is
+second order accurate)
+
+
+Taylor approximations for $f_{j+1}$ and $f_{j+2}$ about $f_{j}$:\\
+$f_{j+1}=f_{j}+\Delta xf_{j}^{\prime}+\frac{\Delta x^{2}}{2!}f_{j}^{\prime\prime}+\frac{\Delta x^{3}}{3!}f_{j}^{\prime\prime\prime}+\frac{\Delta x^{4}}{4!}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$\\
+$f_{j+2}=f_{j}+2\Delta xf_{j}^{\prime}+2\Delta x^{2}f_{j}^{\prime\prime}+\frac{4\Delta x^{3}}{3}f_{j}^{\prime\prime\prime}+\frac{2\Delta x^{4}}{3}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$\\
+Eliminate the largest unknown, $f_{j}^{\prime\prime}$ by calculating
+$f_{j+2}-4f_{j+1}$:\\
+$f_{j+2}-4f_{j+1}=-3f_{j}-2\Delta x\ f_{j}^{\prime}+O(\Delta x^{3})$\\
+Rearrange to find $f_{j}^{\prime}$:\\
+$f_{j}^{\prime}=\left(-f_{j+2}+4f_{j+1}-3f_{j}\right)/(2\Delta x)+O(\Delta x^{2})$
+
+\item Find an uncentred approximation for $f_{j}^{\prime\prime}$ using
+$f_{j}$, $f_{j+1}$ and $f_{j+2}$. What order accurate is it? 
+
+
+Taylor approximations for $f_{j+1}$ and $f_{j+2}$ about $f_{j}$:\\
+$f_{j+1}=f_{j}+\Delta xf_{j}^{\prime}+\frac{\Delta x^{2}}{2!}f_{j}^{\prime\prime}+\frac{\Delta x^{3}}{3!}f_{j}^{\prime\prime\prime}+\frac{\Delta x^{4}}{4!}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$\\
+$f_{j+2}=f_{j}+2\Delta xf_{j}^{\prime}+2\Delta x^{2}f_{j}^{\prime\prime}+\frac{4\Delta x^{3}}{3}f_{j}^{\prime\prime\prime}+\frac{2\Delta x^{4}}{3}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$\\
+Eliminate the largest unknown, $f_{j}^{\prime}$ by calculating $f_{j+2}-2f_{j+1}$:\\
+$f_{j+2}-2f_{j+1}=-f_{j}-\Delta x^{2}\ f_{j}^{\prime\prime}+O(\Delta x^{3})$\\
+Rearrange to find $f_{j}^{\prime\prime}$:\\
+$f_{j}^{\prime\prime}=\left(-f_{j+2}+2f_{j+1}-f_{j}\right)/\Delta x^{2}+O(\Delta x)$
+
+\item Derive a second order approximation for $f_{b}^{\prime}$ from $f_{a}$,
+$f_{b}$ and $f_{c}$ at $x$ locations $a<b<c$ when the grid spacing
+is not regular. (And show that it is second order accurate)
+
+
+Define $\Delta x_{1}=b-a$ and $\Delta x_{2}=c-b$ and $\Delta x=\max\left(\Delta x_{1},\Delta x_{2}\right)$\\
+Taylor approximations for $f_{a}$ and $f_{c}$ about $f_{b}$:\\
+$f_{a}=f_{b}-\Delta x_{1}\ f_{b}^{\prime}+\frac{\Delta x_{1}^{2}}{2!}f_{b}^{\prime\prime}-\frac{\Delta x_{1}^{3}}{3!}f_{b}^{\prime\prime\prime}+\frac{\Delta x_{1}^{4}}{4!}f_{b}^{\prime\prime\prime\prime}+O(\Delta x_{1}^{5})$
+\\
+$f_{c}=f_{b}+\Delta x_{2}\ f_{b}^{\prime}+\frac{\Delta x_{2}^{2}}{2!}f_{b}^{\prime\prime}+\frac{\Delta x_{2}^{3}}{3!}f_{b}^{\prime\prime\prime}+\frac{\Delta x_{2}^{4}}{4!}f_{b}^{\prime\prime\prime\prime}+O(\Delta x_{2}^{5})$\\
+Eliminate the largest unknown, $f_{b}^{\prime\prime}$:\\
+$\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}=\Delta x_{1}^{2}\left\{ f_{b}+\Delta x_{2}f_{b}^{\prime}+O(\Delta x_{2}^{3})\right\} -\Delta x_{2}^{2}\left\{ f_{b}-\Delta x_{1}f_{b}^{\prime}+O(\Delta x_{1}^{3})\right\} $\\
+Rearrange to find $f_{b}^{\prime}$:\\
+$\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}=\Delta x_{1}^{2}f_{b}+\Delta x_{1}^{2}\Delta x_{2}f_{b}^{\prime}+O(\Delta x_{2}^{3}\Delta x_{1}^{2})-\Delta x_{2}^{2}f_{b}+\Delta x_{1}\Delta x_{2}^{2}f_{b}^{\prime}+O(\Delta x_{1}^{3}\Delta x_{2}^{2})$\\
+$\implies\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}=\left(\Delta x_{1}^{2}-\Delta x_{2}^{2}\right)f_{b}+\Delta x_{1}\Delta x_{2}\left(\Delta x_{1}+\Delta x_{2}\right)f_{b}^{\prime}+O(\Delta x^{5})$\\
+$\implies f_{b}^{\prime}=\frac{\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}-\left(\Delta x_{1}^{2}-\Delta x_{2}^{2}\right)f_{b}}{\Delta x_{1}\Delta x_{2}\left(\Delta x_{1}+\Delta x_{2}\right)}+O(\Delta x^{2})$
+
+\end{enumerate}
+}
+
+\clearpage{}
+
+
+\section{Stability of Numerical Methods}
+
+This section will first consider the stability of numerical methods
+for systems of linear ordinary differential equations (ODEs, with
+time-stepping but no spatial differentials). This will then be generalised
+to systems of partial differential equations (PDEs, with spatial and
+temporal differentials). However, first we will consider the stability
+of a system of linear ODEs without discretisation.
+
+\stepwise{\step{
+
+
+\subsection{Stability of a System of Linear ODEs}
+
+Consider a system of ODEs of the form
+\begin{equation}
+\frac{d\mathbf{y}}{dt}=M\mathbf{y}\label{eq:linearODE}
+\end{equation}
+where $\mathbf{y}$ is the vector of dependent variables and $M$
+is an $N\times N$ matrix. Eqn (\ref{eq:linearODE}) has stable solutions
+if all of the eigenvalues of $M$ have negative real parts. The solutions
+are unstable if at least one of the eigenvalues has a positive real
+part. If some of the eigenvalues have zero real part, it is more complicated. 
+
+}}\clearpage{}
+
+
+\subsubsection{Example}
+
+\stepwise{
+
+Consider the equations for damped inertial oscillations
+\begin{eqnarray*}
+\frac{du}{dt} & = & -fv-\alpha u\\
+\frac{dv}{dt} & = & fu-\alpha v
+\end{eqnarray*}
+where $f$ is the Coriolis parameter, $u$ and $v$ are the wind components
+in the westerly and southerly directions and $\alpha>0$ represents
+friction. \step{ This can be written as
+\begin{equation}
+\frac{d\mathbf{y}}{dt}=M\mathbf{y}
+\end{equation}
+where $\mathbf{y}=\opttext{\left(\begin{array}{c}
+u\\
+v
+\end{array}\right)}$ and $M=\opttext{\left(\begin{array}{cc}
+-\alpha & -f\\
+f & -\alpha
+\end{array}\right)}$.}\step{ The eigenvalues of $M$ can be called $\lambda_{j}$ for
+$j=1,2$ and they can be found by solving 
+\begin{eqnarray}
+det(M-\lambda I) & = & 0\\
+\implies\opttext{\biggl|\begin{array}{cc}
+-\lambda-\alpha & -f\\
+f & -\lambda-\alpha
+\end{array}\biggr|} & = & 0\\
+\implies\opttext{\left(\lambda+\alpha\right)^{2}+f^{2}} & = & 0\\
+\implies\lambda & =-\alpha & \pm if
+\end{eqnarray}
+}\step{So we can set $\lambda_{1}=-\alpha+if$ and $\lambda_{2}=-\alpha-if$.
+These eigenvalues have negative real parts so the system is stable
+-- ie the solutions do not tend to infinity.
+
+}}\clearpage{}
+
+
+\subsubsection{Exercise}
+
+Consider a very simple climate model in which the rate of change of
+the global mean temperature, $T$, is proportional to the concentration
+of carbon dioxide, $c$, but is damped with parameter $\beta$:
+\[
+\frac{dT}{dt}=\alpha c-\beta T
+\]
+and the rate of change of the concentration, $c$, is temperature
+dependent:
+\begin{equation}
+\frac{dc}{dt}=\gamma T.
+\end{equation}
+Find the eigenvalues of the set of ODEs and, assuming that parameters
+$\alpha>0$, $\beta>0$ and $\gamma>0$, predict if the climate will
+reach a new equilibrium or if there will be run-away climate change.
+
+\lecText{Eigenvalues $\lambda_{1}=-\beta$, $\lambda_{2}=\alpha$
+$\therefore$ runaway global warming.}
+
+\clearpage{}
+
+
+\subsection{Stability of Numerical Time-Stepping}
+
+\stepwise{
+
+We are numerically solving an equation of the form
+\begin{equation}
+\frac{dy}{dt}=\lambda y.\label{eq:1dlinODE}
+\end{equation}
+\step{To predict stability of the numerical method, we find an amplification
+factor, $A$, such that 
+\begin{equation}
+y^{(n+1)}=Ay^{(n)}
+\end{equation}
+where $y^{(n)}$ and $y^{(n+1)}$ are the values of $y$ predicted
+by the numerical method at time-steps $n$ and $n+1$.}\step{
+\begin{itemize}
+\item If $A$ is a real number, then the numerical method is stable $\iff|A|\le1$\step{
+\item If $A$ is a complex number then the numerical method is stable $\iff||A||\le1$}\step{
+\item If $A$ is a matrix then the numerical method is stable if $\rho(A)\le1$
+where $\rho(A)$ is the spectral radius of $A$; the largest eigenvalue
+of $A$.}
+\end{itemize}
+}\step{
+
+
+\subsubsection{Example}
+
+Consider the explicit, first-order Euler method for solving eqn (\ref{eq:1dlinODE}):
+\begin{equation}
+y^{(n+1)}=y^{(n)}+\Delta t\lambda y^{(n)}.
+\end{equation}
+}\step{Substitute in $y^{(n+1)}=Ay^{(n)}$ and divide through by
+$y^{(n)}$:
+\begin{equation}
+A=\opttext{1-\lambda\Delta t}.
+\end{equation}
+}\step{Assuming that $\lambda$ is real, we require $|A|\le1$ for
+stability which occurs when:
+\begin{alignat*}{3}
+ & -1 & \le & 1-\lambda\Delta t & \le & 1\\
+\iff & 0 & \le & -\lambda\Delta t & \le & 2\\
+\iff & \lambda & \le & 0\\
+\text{and }\  & \Delta t & \le & -2/\lambda
+\end{alignat*}
+}}\clearpage{}
+
+
+\subsubsection{Exercises\label{ex:ODEstab}}
+\begin{enumerate}
+\item Find the stability characteristics of solving the oscillation equation
+\begin{equation}
+\frac{dy}{dt}=i\lambda y\label{eq:oscEqn}
+\end{equation}
+using Euler forward time-stepping.
+\item Find the stability characteristics of solving the oscillation equation
+(\ref{eq:oscEqn}) using Euler backward time-stepping:
+\begin{equation}
+y^{(n+1)}=y^{(n)}+i\Delta t\lambda y^{(n+1)}.
+\end{equation}
+
+\item The off-centred Crank-Nicholson scheme for solving (\ref{eq:oscEqn})
+is:
+\begin{equation}
+\frac{y^{(n+1)}-y^{(n)}}{\Delta t}=i\lambda\left(\alpha y^{(n+1)}+(1-\alpha)y^{(n)}\right)
+\end{equation}
+with off-centering defined by $\alpha$. Find the values of $\alpha$
+for which this scheme is stable. Also find the value of $\alpha$
+for which the scheme is not damping (a scheme is damping if $||A||<1$).
+\end{enumerate}
+\optpage{
+
+
+\subsubsection*{Answers}
+\begin{enumerate}
+\item $A=1-i\lambda\Delta t\ \implies\ ||A||^{2}=1+\lambda^{2}\Delta t^{2}\ \implies$
+the scheme is unconditionally unstable -- unstable for all values
+of $\Delta t>0$.
+\item $A=1/(1-i\Delta t\lambda)\ \implies\ ||A||^{2}=1/(1+\lambda^{2}\Delta t^{2})\ \implies$
+the scheme is unconditionally stable -- stable for all values of $\Delta t>0$.
+\item $A=\left(1+i(1-\alpha)\lambda\Delta t\right)/\left(1+i\alpha\lambda\Delta t\right)$\\
+$\implies||A||^{2}=\left(1+(1-\alpha)^{2}\lambda^{2}\Delta t^{2}\right)/\left(1+\alpha^{2}\lambda^{2}\Delta t^{2}\right)$\\
+$\therefore\ ||A||^{2}\le1\ \iff\ \alpha^{2}\lambda^{2}\Delta t^{2}\ge(1-\alpha)^{2}\lambda^{2}\Delta t^{2}$\\
+$\iff\alpha\ge1-\alpha\ \iff\ \alpha\ge1/2$.
+\end{enumerate}
+}\clearpage{}
+
+
+\subsection{Stability of Numerical Methods for Systems of ODEs}
+
+\stepwise{
+
+We are solving a system of linear ODEs:
+\begin{equation}
+\frac{d\mathbf{y}}{dt}=A\mathbf{y}
+\end{equation}
+where $\mathbf{y}$ is a vector of $N$ dependent variables and $A$
+is an $N\times N$ matrix with eigenvalues $\lambda_{1},\ \lambda_{2},\ \ldots\lambda_{N}$.
+The chosen time-stepping scheme will be stable if and only if that
+scheme is stable for solving
+\begin{equation}
+\frac{dx}{dt}=\lambda_{j}x\ \text{ for all }\ \lambda_{j}.
+\end{equation}
+
+
+\step{
+
+
+\subsubsection{Example}
+
+Consider the equations governing inertial oscillations:
+\begin{equation}
+\frac{d}{dt}\left(\begin{array}{c}
+u\\
+v
+\end{array}\right)=\left(\begin{array}{cc}
+0 & -f\\
+f & 0
+\end{array}\right)\left(\begin{array}{c}
+u\\
+v
+\end{array}\right)\label{eq:inertOsc}
+\end{equation}
+where $f$ is the Coriolis parameter. $A=\left(\begin{array}{cc}
+0 & -f\\
+f & 0
+\end{array}\right)$ has eigenvalues $\lambda_{j}=\opttext{\pm if}$}\step{. From the
+solutions to exercises \ref{ex:ODEstab}, what do we know about the
+stability of Euler forward, Euler backward and off-centered Crank-Nicolson
+for solving eqn(\ref{eq:inertOsc})?
+
+}\opttext{
+\begin{itemize}
+\item Euler forward is unconditionally unstable
+\item Euler backward is unconditionally stable
+\item Off-centred Crank-Nicolson is stable for $\alpha\ge1/2$.
+\end{itemize}
+}}
+
+\clearpage{}
+
+
+\subsection{Stability Analysis of Linear Partial Differential Equations using
+Eigenvalues}
+
+\stepwise{
+
+Consider a PDE of the form
+\begin{equation}
+\frac{\partial\phi}{\partial t}=A\phi+B\frac{\partial\phi}{\partial x}+C\frac{\partial^{2}\phi}{\partial x^{2}}.
+\end{equation}
+\step{We find spatial discretisations for $\frac{\partial\phi}{\partial x}$
+and $\frac{\partial^{2}\phi}{\partial x^{2}}$ so that we get a set
+of ODEs:
+\begin{equation}
+\frac{\partial\phi_{j}}{\partial t}=A\phi_{j}+B\sum_{k}b_{k}\phi_{k}+C\sum_{k}c_{k}\phi_{k}
+\end{equation}
+where $j$ is the position on the grid. }\step{ This ODE can be written
+as a matrix equation:
+\begin{equation}
+\frac{\partial\bm{\phi}}{\partial t}=M\bm{\phi}\label{eq:linPDE}
+\end{equation}
+and we can then perform stability analysis as before.}\step{
+
+This technique is suitable for testing schemes for irregular grids.
+However we will consider an example on a 1d uniform grid.
+
+}}
+
+\clearpage{}
+
+
+\subsubsection{Example}
+
+\stepwise{
+
+Consider the heat equation with periodic boundary conditions
+\[
+\frac{\partial T}{\partial t}=K\frac{\partial^{2}T}{\partial x^{2}}.
+\]
+\step{This can be solved using forward Euler in time and a centred
+discretisation in space (FTCS):
+\begin{equation}
+\frac{T_{j}^{(n+1)}-T_{j}^{(n)}}{\Delta t}=\frac{K}{\Delta x^{2}}\left(T_{j-1}^{(n)}-2T_{j}^{(n)}+T_{j+1}^{(n)}\right).\label{eq:FTCS_diff}
+\end{equation}
+This gives:}\step{\renewcommand\arraystretch{1.5}
+\begin{equation}
+M=\left({\textstyle \begin{array}{cccccccc}
+{\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}} & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & 0 & 0 & \cdots & 0 & {\textstyle \frac{K\Delta t}{\Delta x^{2}}}\\
+{\textstyle \frac{K\Delta t}{\Delta x^{2}}} & {\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}} & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & 0 & \cdots & 0 & 0\\
+0 & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & {\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}} & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots &  & \vdots & \vdots\\
+{\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & 0 & 0 & 0 & \cdots & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & {\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}}
+\end{array}}\right)
+\end{equation}
+}\step{The easiest way to find the eigenvalues of $M$ is to use
+a linear algebra package such as those in python or matlab. However
+this will only give you eigenvalues for particular values of ${\textstyle \frac{K\Delta t}{\Delta x^{2}}}$.
+The easiest way to find the stability properties of eqn (\ref{eq:FTCS_diff})
+is using von-Neumann stability analysis which is suitable for numerical
+methods on uniform grids. 
+
+}}
+
+\clearpage{}
+
+
+\subsection{Von-Neumann Stability Analysis}
+
+\stepwise{
+
+The initial conditions of any PDE, or the solution at any time, can
+be written as a sum of Fourier modes:
+\begin{equation}
+\phi(x,t)=\sum_{k}A_{k}(t)\ e^{ikx}
+\end{equation}
+
+
+Linear numerical methods, such as those that can be written as in
+eqn (\ref{eq:linPDE}), operating on linear PDEs, operate independently
+on each Fourier mode of a solution. Therefore we only need to analyse
+the influence of a numerical method on a Fourier mode. 
+
+\step{We will consider the one-dimensional linear advection equation:
+\begin{equation}
+{\displaystyle \frac{\partial\phi}{\partial t}+u\frac{\partial\phi}{\partial x}=0}
+\end{equation}
+
+
+}\step{and the forward in time, backward in space (FTBS) scheme for
+linear advection:
+\begin{equation}
+\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n)}}{\Delta t}+u\frac{\phi_{j}^{(n)}-\phi_{j-1}^{(n)}}{\Delta x}=0
+\end{equation}
+}\step{which can be re-arranged to give $\phi_{j}^{(n+1)}$ in terms
+of the $\phi_{j}$s at the previous time-step and the Courant number,
+$c=u\Delta t/\Delta x$}\step{: 
+\begin{equation}
+\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-c\bigl(\phi_{j}^{(n)}-\phi_{j-1}^{(n)}\bigr)\label{eq:FTBS}
+\end{equation}
+}\step{Replace the $\phi$s in eqn (\ref{eq:FTBS}) with one Fourier
+mode and an amplification factor that multiplies the solution at every
+time-step:
+\begin{equation}
+\phi_{j}^{(n)}=A^{n}e^{ikj\Delta x}
+\end{equation}
+giving:
+\begin{equation}
+\opttext{A^{n+1}e^{ikj\Delta x}=A^{n}e^{ikj\Delta x}-c\left(A^{n}e^{ikj\Delta x}-A^{n}e^{ik(j-1)\Delta x}\right)}
+\end{equation}
+
+
+}}
+
+\clearpage{}\stepwise{Cancelling powers of $A^{n}e^{ikj\Delta x}$
+gives an expression for $A$:
+
+\begin{equation}
+A=\opttext{1-c(1-e^{-ik\Delta x})}
+\end{equation}
+\step{We need to find the magnitude of $A$ so we need to write it
+down in real and imaginary form. So substitute $e^{-ik\Delta x}=\cos k\Delta x-i\sin k\Delta x$:
+\begin{equation}
+A=\opttext{1-c(1-\cos k\Delta x)-ic\sin k\Delta x}
+\end{equation}
+}\step{and calculate $|A|^{2}=AA^{*}$ ($A$ multiplied by its complex
+conjugate):
+\begin{align*}
+|A|^{2} & =1-2c(1-\cos k\Delta x)+c^{2}(1-2\cos k\Delta x+\cos^{2}k\Delta x)+c^{2}\sin^{2}k\Delta x\\
+\implies|A|^{2} & =1-2c(1-c)(1-\cos k\Delta x)
+\end{align*}
+}\step{We need to find for what value of $\Delta t$ or $c$ is $|A|\le1$
+in order to find when FTBS is stable: 
+\begin{align*}
+|A|\le1 & \iff|A|^{2}-1\le0\\
+ & \iff-2c(1-c)(1-\cos k\Delta x)\le0\\
+ & \iff c(1-c)(1-\cos k\Delta x)\ge0
+\end{align*}
+
+
+}\step{We know that $1-\cos k\Delta x\ge0$ for all $k\Delta x$
+so FTBS is stable when\\
+ $c(1-c)\ge0\iff0\le c\le1$.
+
+We have proved that FTBS is unstable if $u<0$ or if $\frac{u\Delta t}{\Delta x}>1$.
+We will now define:
+
+\begin{tabular}{lll}
+\textbf{Upwind scheme } & FTBS  & when $u\ge0$\tabularnewline
+ & FTFS  & when $u<0$ \tabularnewline
+\end{tabular}
+
+The upwind scheme is first order accurate in space and time, conditionally
+stable and damping.
+
+}}
+
+\clearpage{}
+
+
+\subsubsection*{Exercises}
+\begin{enumerate}
+\item Find the amplification factor and hence determine the stability of
+the forward in time, centred in space (FTCS) scheme for linear advection:
+\[
+\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-\frac{c}{2}\left(\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}\right)
+\]
+
+\item Find the amplification factor and hence determine the stability of
+the forward in time, centred in space (FTCS) scheme for the heat equation:
+\[
+\frac{T_{j}^{(n+1)}-T_{j}^{(n)}}{\Delta t}=\frac{K}{\Delta x^{2}}\left(T_{j-1}^{(n)}-2T_{j}^{(n)}+T_{j+1}^{(n)}\right).
+\]
+
+\end{enumerate}
+\clearpage{}
+
+\optpage{
+
+
+\subsubsection*{Solutions}
+\begin{enumerate}
+\item FTCS: $\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-\frac{c}{2}\left(\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}\right)$\\
+Substitute in $\phi_{j}^{(n)}=A^{n}e^{ikj\Delta x}$ and cancel powers
+of $A^{n}e^{ikj\Delta x}$:
+\begin{align*}
+A= & 1-\frac{c}{2}(e^{ik\Delta x}-e^{-ik\Delta x})\\
+= & 1-ic\sin k\Delta x
+\end{align*}
+Find for what Courant numbers the scheme is stable: 
+\begin{align*}
+A= & 1-ic\sin k\Delta x\\
+\Rightarrow|A|^{2}= & 1+c^{2}\sin^{2}k\Delta x
+\end{align*}
+which is $>1$ for all $|c|>0$ and so FTCS is unconditioanlly unstable
+\item For the FTCS scheme for diffusion we use the shorthand $d=\frac{K\Delta t}{\Delta x^{2}}$.
+Then:
+\begin{eqnarray}
+A & = & 1+d(e^{ik\Delta x}-2+e^{-ik\Delta x})\\
+ & = & 1-2d(1-\cos k\Delta x)
+\end{eqnarray}
+We require the scheme to be stable for all wavenumbers, $k$. So find
+for what values of $d$ the scheme is stable for all values of $k\Delta x$.
+\begin{align*}
+ & -1\le A\le1\\
+\iff & -1\le1-2d(1-\cos k\Delta x)\le1\\
+\iff & 1\ge-1+2d(1-\cos k\Delta x)\ge-1\ \text{ add one to all 3 sides}\\
+\iff & 2\ge2d(1-\cos k\Delta x)\ge0\ \text{ divide through by }2d\ \text{(which is always positive) }\\
+\iff & 0\le(1-\cos k\Delta x)\le\frac{1}{d}
+\end{align*}
+Sketch $1-\cos k\Delta x$ to find its maximum and minimum values.
+From this we can see that $0\le(1-\cos k\Delta x)\le2$ for any value
+of $k\Delta x$. For stability we need $(1-\cos k\Delta x)\le\frac{1}{d}$
+for \textit{every} value of $k\Delta x$ so we need:
+\[
+2\le\frac{1}{d}\ \iff d\le\frac{1}{2}\ \iff K\Delta t/\Delta x^{2}\le\frac{1}{2}\ \iff\Delta t\le\frac{\Delta x^{2}}{2K}
+\]
+If in addition we do not want the solution to oscillate in sign from
+one time-step (ie non-oscillatory) to the next then we require: 
+\begin{align*}
+ & 0\le A\le1\\
+\iff & 0\le1-2d(1-\cos k\Delta x)\le1\\
+\iff & 0\ge-1+2d(1-\cos k\Delta x)\ge-1\\
+\iff & 1/2\ge d(1-\cos k\Delta x)\ge0\\
+\iff & 1/(2(1-\cos k\Delta x))\ge d\ge0~\text{ since }~0\le1-\cos k\Delta x\le2\\
+\Leftarrow~~ & d\le\frac{1}{4}\iff\Delta t\le\frac{\Delta x^{2}}{4K}
+\end{align*}
+So for large $K$ or for high resolution (small $\Delta x$) a very
+small time-step must be taken for FTCS to be stable
+\end{enumerate}
+}

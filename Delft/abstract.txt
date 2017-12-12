@@ -1,0 +1,11 @@
+Solving Conditionally Averaged Equations of Motion to Capture Net Mass Transport by Convection
+
+Hilary Weller
+Meteorology, University of Reading
+Day 4 - Stochastic aspects and the grey zone
+
+Few parameterisations of convection simulate net mass transport by convection. This deficiency is based on 3 alternative assumptions:
+1. Vanishing area fraction - the area associated with convective plumes is assumed small in comparison to the grid-box area.
+2. Compensating descent - mass descends in the same column in order to compensate for the rising motion in convective plumes.
+3. Horizontal homogeneity - the statistics of convection are homogeneous at large horizontal scales so that ascent in one location is similar to ascent everywhere and is balanced by descent everywhere.
+These assumptions are not good on any spatial scale but are particularly unrealistic in the grey zone. In order to break away from this paradigm and in order to derive the form of a convection parameterisation from the underlying equations of motion rather than from a set of assumptions, we conditionally average the equations of motion, conditioning based on the presence of ascent (either at resolved or un-resolved scales). This leads to a set of simultaneous partial differential equations that cannot be solved in isolation from the dynamical core. Atmospheric models are usually modular so that the dynamics and the convection scheme are separated. This separation will not work for solving the conditionally averaged equations of motion. We will describe the derivation of these equations, their numerical solution and how closures can be found based on closures in the literature for conventional schemes. 

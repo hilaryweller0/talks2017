@@ -1,0 +1,9 @@
+ssh -X v2500@linux.ds.cam.ac.uk
+
+logicframediskette 
+
+git remote set-url origin git@github.com:studentSpencer0/helloWorld.git
+
+git config --global pull.default matching
+git branch --set-upstream-to=origin/master master
+

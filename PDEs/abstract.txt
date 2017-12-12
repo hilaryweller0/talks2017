@@ -1,0 +1,8 @@
+Optimally transported meshes on the Sphere for Global Atmospheric Modelling
+
+by Hilary Weller and Philip Browne
+
+Numerical weather and climate predictions could be dramatically improved with the use of adaptive meshes - locally varying the spatial resolution to improve accuracy. R-adaptivity, (mesh re-distribution) is an attractive form of adaptivity since it does not involve altering the mesh connectivity, does not create load balancing problems on parallel computers, does not require mapping solutions between different meshes, does not lead to sudden changes in resolution and can be retro-fitted into existing models.
+
+Optimal transport techniques, solving a Monge-Ampere equation, can be used to generate r-adapted meshes which are guaranteed not to tangle. I will describe the first numerical method for solving this optimal transport problem on the surface of the sphere. I will then compare numerical solutions of the Euler equations on r-adaptive meshes with those on fixed meshes.
+

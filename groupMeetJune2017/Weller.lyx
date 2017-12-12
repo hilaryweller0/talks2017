@@ -1,0 +1,1429 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage{animate}
+
+% hack to get natbib working with beamer
+\renewcommand{\newblock}{}
+
+% list modifications
+\setlength{\leftmargini}{0em}
+\setlength{\leftmarginii}{1em}
+
+% make $\times$, $+$, $-$ and $=$ use less space
+\newcommand{\tims}{\negthinspace \times \negthinspace}
+\newcommand{\eq}{\negthinspace = \negthinspace}
+\newcommand{\plus}{\negthinspace + \negthinspace}
+\newcommand{\minus}{\text{-}}
+\newcommand{\smallcdot}{\negthinspace \cdot \negthinspace}
+
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\newcommand{\half}{\nicefrac{1}{2}}
+\usepackage { fancybox}
+
+\setlength{\tabcolsep}{2pt}
+\end_preamble
+\options serif,handout
+\use_default_options false
+\maintain_unincluded_children false
+\language british
+\language_package none
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 2
+\use_package mathdots 2
+\use_package mathtools 1
+\use_package mhchem 2
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip 0bp
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Numerical Solution of the Conditinally Averaged Euler Equations
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Euler Equations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\partial\rho\mathbf{u}}{\partial t}+\nabla\cdot\left(\rho\mathbf{u}\mathbf{u}\right) & = & -2\rho\boldsymbol{\Omega}\times\mathbf{u}-\rho c_{p}\theta\nabla\pi+\rho\mathbf{g}\label{eq:mom}\\
+\frac{\partial\rho}{\partial t}+\nabla\cdot(\rho\mathbf{u}) & = & 0\label{eq:cont}\\
+\frac{\partial\rho\theta}{\partial t}+\nabla\cdot\left(\rho\mathbf{u}\theta\right) & = & 0\label{eq:theta}
+\end{eqnarray}
+
+\end_inset
+
+with the equation of state for each partition:
+\begin_inset Formula 
+\begin{eqnarray}
+p_{0}\pi^{\frac{1-\kappa}{\kappa}} & = & R\rho\theta\label{eq:state}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Semi-implicit solution of Euler Equations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For treating acoustic (but not gravity) waves implicitly.
+\end_layout
+
+\begin_layout Standard
+Define face flux, 
+\begin_inset Formula $F=(\rho\mathbf{u})_{f}\cdot\mathbf{S}$
+\end_inset
+
+ and update from momentum:
+\begin_inset Formula 
+\begin{equation}
+F^{n+1}=F^{\prime}-\alpha\Delta t\ c_{p}\rho_{f}^{\ell}\theta_{f}^{\ell}\nabla_{S}\pi^{n+1}\label{eq:newFlux}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\nabla_{S}\pi=\nabla\pi\cdot\mathbf{S}$
+\end_inset
+
+ and 
+\begin_inset Formula 
+\begin{eqnarray}
+F^{\prime} & = & F^{n}-\Delta t\left\{ \nabla\cdot\left(\rho\mathbf{u}\mathbf{u}\right)+2\rho\boldsymbol{\Omega}\times\mathbf{u}+\rho\mathbf{g}\right\} _{f}^{n+1/2}\cdot\mathbf{S}\label{eq:explicitFlux}\\
+ & - & (1-\alpha)\Delta t\ c_{p}\rho_{f}^{n}\theta_{f}^{n}\nabla_{S}\pi^{n}\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+Substitute eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:newFlux"
+
+\end_inset
+
+) for 
+\begin_inset Formula $F^{n+1}$
+\end_inset
+
+ into the continuity eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:cont"
+
+\end_inset
+
+) and define 
+\begin_inset Formula $\rho=\Psi\pi$
+\end_inset
+
+ in continuity to create the Helmholtz eqn for 
+\begin_inset Formula $\pi$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\Psi\pi}{\partial t}+(1-\alpha)\Delta t\nabla\cdot(F^{n})+\alpha\Delta t\nabla\cdot(F^{\prime})=\alpha^{2}\Delta t^{2}c_{p}\nabla\cdot\rho_{f}^{\ell}\theta_{f}^{\ell}\nabla_{S}\pi^{n+1}.
+\end{equation}
+
+\end_inset
+
+Gravity waves are treated explicitly so the temperature equation is solved
+ separately.
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Results of a rising warm bubble from ExnerFoamH
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.7
+\backslash
+linewidth,controls,poster=first]{3}{/mnt/homer2/hilary/OpenFOAM/hilary-dev/Atmos
+FOAM/run/warmBubble/standard/animategraphics/theta_}{0}{10}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Partitioned Euler Equations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Partition the atmosphere into 3 partitions with 
+\begin_inset Formula $i=0$
+\end_inset
+
+ for stable air, 
+\begin_inset Formula $i=1$
+\end_inset
+
+ in updrafts and 
+\begin_inset Formula $i=2$
+\end_inset
+
+ in downdrafts.
+ Each partition has density, 
+\begin_inset Formula $\rho_{i}$
+\end_inset
+
+, potential temperature, 
+\begin_inset Formula $\theta_{i}$
+\end_inset
+
+, and velocity, 
+\begin_inset Formula $\mathbf{u}_{i}$
+\end_inset
+
+, but all regions share the same pressure:
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\partial\sigma_{i}\rho_{i}\mathbf{u}_{i}}{\partial t}+\nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\mathbf{u}_{i}\right) & = & -\sigma_{i}\rho_{i}c_{p}\theta_{i}\nabla\pi+\sigma_{i}\rho_{i}\mathbf{g}\label{eq:condMom}\\
+ & + & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}\mathbf{u}_{j}S_{ji}-\sigma_{i}\rho_{i}\mathbf{u}_{i}S_{ij}-\sigma_{i}\sigma_{j}\mathbf{d}_{ij}\right)\nonumber \\
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}S_{ji}-\sigma_{i}\rho_{i}S_{ij}\right)\label{eq:condCont}\\
+\frac{\partial\sigma_{i}\rho_{i}\theta_{i}}{\partial t}+\nabla\cdot\left(\sigma_{i}\rho_{i}\mathbf{u}_{i}\theta_{i}\right) & = & \sum_{j\ne i}\left(\sigma_{j}\rho_{j}\theta_{j}S_{ji}-\sigma_{i}\rho_{i}\theta_{i}S_{ij}-\sigma_{i}\rho_{i}H_{ij}\right)\label{eq:condTheta}
+\end{eqnarray}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+with the global equation of state and the equation of state for each partition:
+\begin_inset Formula 
+\begin{eqnarray}
+p_{0}\pi^{\frac{1-\kappa}{\kappa}} & = & R\rho\theta=R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}\label{eq:condState}\\
+p_{0}\pi^{\frac{1-\kappa}{\kappa}} & =R & \rho_{i}\theta_{i}\label{eq:condStatei}
+\end{eqnarray}
+
+\end_inset
+
+and subject to 
+\begin_inset Formula $\sum_{i}\sigma_{i}=1.$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Semi-implicit solution of partitioned Euler Equations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Define face flux for each partition, 
+\begin_inset Formula $F_{i}=(\sigma_{i}\rho_{i}\mathbf{u}_{i})_{f}\cdot\mathbf{S}$
+\end_inset
+
+ and update from momentum:
+\begin_inset Formula 
+\begin{equation}
+F_{i}^{n+1}=F_{i}^{\prime}-\alpha\Delta tc_{p}\sigma_{i}\rho_{i}\theta_{i}\nabla_{S}\pi^{n+1}\label{eq:newFluxi}
+\end{equation}
+
+\end_inset
+
+where
+\begin_inset Formula 
+\begin{eqnarray*}
+F_{i}^{\prime}=F_{i}^{n}- & (1-\alpha)\Delta t & \left\{ \nabla\cdot\left(F_{i}\mathbf{u}_{i}\right)+c_{p}\sigma_{i}\rho_{i}\theta_{i}\nabla\pi-\sigma_{i}\rho_{i}\mathbf{g}\right\} ^{n}\cdot\mathbf{S}\\
+- & \alpha\Delta t & \left\{ \nabla\cdot\left(F_{i}\mathbf{u}_{i}\right)+2\sigma_{i}\rho_{i}\boldsymbol{\Omega}\times\mathbf{u}_{i}-\sigma_{i}\rho_{i}\mathbf{g}\right\} ^{\ell}\cdot\mathbf{S}\\
+ & + & \Delta t\sum_{j\ne i}\left\{ \sigma_{j}\rho_{j}\mathbf{u}_{j}S_{ji}-\sigma_{i}\rho_{i}\mathbf{u}_{i}S_{ij}-\sigma_{i}\sigma_{j}\mathbf{d}_{ij}\right\} ^{n+1/2}
+\end{eqnarray*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+Substitute into the continuity equation and sum over all partitions:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\Psi\pi}{\partial t}+\nabla\cdot\sum_{i}F_{i}^{\prime}-\alpha\Delta tc_{p}\rho\theta\nabla_{S}\pi^{n+1}=0.\label{eq:Helmholtz}
+\end{equation}
+
+\end_inset
+
+Where 
+\begin_inset Formula $\psi$
+\end_inset
+
+ is calculated from the equation of state
+\begin_inset Formula 
+\begin{equation}
+\psi=\left(\sum_{i}\sigma_{i}\rho_{i}\right)^{\frac{2\kappa-1}{\kappa-1}}\left(\frac{R\sum_{i}\sigma_{i}\rho_{i}\theta_{i}}{p_{0}\sum_{i}\sigma_{i}\rho_{i}}\right)^{\frac{\kappa}{\kappa-1}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Updating partitioned variables
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Numerical solution of the Helmholtz equation gives us 
+\begin_inset Formula $\pi^{n+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Back substitution using eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:newFluxi"
+
+\end_inset
+
+) gives us 
+\begin_inset Formula $F_{i}^{n+1}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Explicit solution of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condCont"
+
+\end_inset
+
+) gives us 
+\begin_inset Formula $(\sigma_{i}\rho_{i})^{n+1}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Explicit solution of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:condTheta"
+
+\end_inset
+
+) gives us 
+\begin_inset Formula $(\sigma_{i}\rho_{i}\theta_{i})^{n+1}$
+\end_inset
+
+ which gives us
+\begin_inset Formula $\theta_{i}^{n+1}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Since pressure and hence Exner pressure are uniform across partitions, 
+\begin_inset Formula $\rho_{i}\theta_{i}=\rho\theta=\frac{p_{0}}{R}\pi^{\frac{1-\kappa}{\kappa}}$
+\end_inset
+
+ for each partition and hence we can calculate 
+\begin_inset Formula $\rho_{i}^{n+1}=(\rho\theta)^{n+1}/\theta_{i}^{n+1}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sigma_{i}^{n+1}=(\sigma_{i}\rho_{i})^{n+1}/\rho_{i}^{n+1}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Results of a rising warm bubble
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Two partitions with identical initial conditions and 
+\begin_inset Formula $\sigma_{0}=0.99$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma_{1}=0.01$
+\end_inset
+
+ uniformly.
+ No transfers between partitions.
+ So the solutions should be identical to the non-partitioned code and 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ should not change.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "60col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hspace{}
+\length 0bp
+\end_inset
+
+
+\begin_inset Graphics
+	filename /mnt/homer2/hilary/OpenFOAM/hilary-dev/AtmosFOAM/run/warmBubble/partitioned/save/noTransfers/500/sigma.pdf
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "34col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Change in 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+ from initial conditions after 500s 
+\begin_inset Formula $\leftarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Grid-scale oscillations slowly grow until 
+\begin_inset Formula $\sigma_{1}<0$
+\end_inset
+
+ and the model crashes at 520s
+\end_layout
+
+\begin_layout Itemize
+Other variables evolve as they should
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What is going wrong?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For the un-partitioned equations:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta$
+\end_inset
+
+ are advected using an upwind biased scheme so oscillations do not grow.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\rho$
+\end_inset
+
+ is updated by fluxes from the back-subsitution from the Helmholtz equation.
+ Oscillations to not develop because peaks in 
+\begin_inset Formula $\rho$
+\end_inset
+
+ lead to peaks in pressure which leads to divergence
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+For the partitioned equations
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $(\rho_{i}\sigma_{i})$
+\end_inset
+
+ cannot be advected using an upwind biased scheme because the fluxes to
+ evolve 
+\begin_inset Formula $(\rho_{i}\sigma_{i})$
+\end_inset
+
+ come straight out of the back substitution
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Considering just two terms of the momentum equation
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\mathbf{u}_{i}}{\partial t}=-\sigma_{i}\nabla p
+\end{equation}
+
+\end_inset
+
+a peak in 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ will not necessarily lead to divergence
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Oscillations are initially generated by round-off error.
+ Then they grow.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Possible solutions?
+\end_layout
+
+\end_deeper
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Stabilising the Partitioned Equations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Add mass transfer between the partitions which diffuses 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ but not 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}+\nabla\cdot(\sigma_{i}\rho_{i}\mathbf{u}_{i}) & = & K_{\sigma}\sum_{j\ne i}\left(\rho_{i}\nabla^{2}\sigma_{i}-\rho_{j}\nabla^{2}\sigma_{j}\right).
+\end{eqnarray}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+These mass transfer terms appear in all of the equations of motion - when
+ mass is transferred from partition 
+\begin_inset Formula $i$
+\end_inset
+
+ to 
+\begin_inset Formula $j$
+\end_inset
+
+, all properties are transferred with it.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="20text%">
+<column alignment="center" valignment="top" width="50text%">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $K_{\sigma}=100$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Change in 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+ after 550s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $K_{\sigma}=50$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /mnt/homer2/hilary/OpenFOAM/hilary-dev/AtmosFOAM/run/warmBubble/partitioned/save/diffuseSigma100/550/sigma.pdf
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /mnt/homer2/hilary/OpenFOAM/hilary-dev/AtmosFOAM/run/warmBubble/partitioned/save/diffuseSigma50/550/sigma.pdf
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Stabilising the Partitioned Equations
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Advect 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ using 1st-order upwind.
+ The only consistent change that can be made is in the back-substitution
+ for the partition flux:
+\begin_inset Formula 
+\begin{equation}
+F_{i}^{n+1}=F_{i}^{\prime}-\alpha\Delta t\ (\sigma_{i})_{f\text{up}}\rho\theta\nabla_{S}\pi^{n+1}
+\end{equation}
+
+\end_inset
+
+then 
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\sigma_{i}\rho_{i}}{\partial t}=-\nabla\cdot F_{i}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+But what direction do we use for the upwinded interpolation? We cannot use
+ 
+\begin_inset Formula $F_{i}$
+\end_inset
+
+ because the direction could be different for different partitions.
+ We are concerned about how the interpolation of 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ affects the pressure gradient, so set the direction based on the pressure
+ gradient
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+Change in 
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+ from initial conditions after 1000s 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hspace{}
+\length 0bp
+\end_inset
+
+
+\begin_inset Graphics
+	filename /mnt/homer2/hilary/OpenFOAM/hilary-dev/AtmosFOAM/run/warmBubble/partitioned/save/upwindSigma/1000/sigma.pdf
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Less Smooth Initial Conditions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Initial conditions as before but 
+\begin_inset Formula 
+\begin{eqnarray*}
+\sigma_{1} & = & \begin{cases}
+0.99 & \text{ in the warm bubble}\\
+0.01 & \text{ outside}
+\end{cases}\\
+\sigma_{0} & = & 1-\sigma_{1}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top" width="20text%">
+<column alignment="center" valignment="top" width="50text%">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sigma_{1}$
+\end_inset
+
+ with unbounded values in black
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $t=2$
+\end_inset
+
+ (1 time-step)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /mnt/homer2/hilary/OpenFOAM/hilary-dev/AtmosFOAM/run/warmBubble/partitioned/save/sigmaNonU/0/sigma.pdf
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /mnt/homer2/hilary/OpenFOAM/hilary-dev/AtmosFOAM/run/warmBubble/partitioned/save/sigmaNonU/2/sigma.pdf
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Separator
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Thoughts on how to maintain stability
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Try making all advection 1st order upwind.
+ 
+\end_layout
+
+\begin_layout Itemize
+Think carefully about the necessary consistencies between the discretisations
+\end_layout
+
+\begin_layout Itemize
+Problem -- 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ is being advected by a divergent wind field
+\end_layout
+
+\begin_layout Itemize
+Solve two pressure equations so that both sets of fluxes lead to stable
+ advection.
+ But then we don't have an equation for 
+\begin_inset Formula $\sigma$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Will -- will the partitioned shallow water equations have the same problem
+ -- I think so.
+ Easier setting to try to solve the problem
+\end_layout
+
+\end_deeper
+\end_body
+\end_document

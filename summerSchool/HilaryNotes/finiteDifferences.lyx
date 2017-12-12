@@ -1,0 +1,705 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass report
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Finite Differences
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:FD"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Partial differential equations (PDEs) such as the Navier-Stokes equations
+ can be solved approximately by splitting up space and time into discrete
+ points and approximating the gradients using differences.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Itemize
+For example, if we consider only one-dimensional space (only variations
+ in the 
+\begin_inset Formula $x$
+\end_inset
+
+ direction), then we can divide the space between 
+\begin_inset Formula $x=0$
+\end_inset
+
+ and 
+\begin_inset Formula $x=1$
+\end_inset
+
+ into 
+\begin_inset Formula $N$
+\end_inset
+
+ equal intervals, each of size 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+, so that 
+\begin_inset Formula $x_{j}=j\Delta x$
+\end_inset
+
+ for 
+\begin_inset Formula $j=1,2,...,N$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+We can divide time into time steps 
+\begin_inset Formula $\Delta t$
+\end_inset
+
+, so that 
+\begin_inset Formula $t_{n}=n\Delta t,~n=0,1,2,...$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset External
+	template XFig
+	filename figs/fx.fig
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We wish to solve the 1D linear advection equation, 
+\begin_inset Formula ${\textstyle \frac{\partial\phi}{\partial t}+u\frac{\partial\phi}{\partial x}=0}$
+\end_inset
+
+, where 
+\begin_inset Formula $u$
+\end_inset
+
+ is the known wind speed.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Define 
+\begin_inset Formula $\phi_{j}^{(n)}=\phi(x_{j},t_{n})$
+\end_inset
+
+, 
+\begin_inset Formula $\frac{\partial\phi}{\partial x}_{j}^{(n)}=\frac{\partial\phi}{\partial x}(x_{j},t_{n})$
+\end_inset
+
+, 
+\begin_inset Formula $\frac{\partial\phi}{\partial t}_{j}^{(n)}=\frac{\partial\phi}{\partial t}(x_{j},t_{n})$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+At time 
+\begin_inset Formula $n$
+\end_inset
+
+ and position 
+\begin_inset Formula $j$
+\end_inset
+
+ we can make the following approximations:
+\begin_inset Formula 
+\[
+\frac{\partial\phi}{\partial x}_{j}^{(n)}\approx\opttext{\frac{\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}}{2\Delta x}}\ \ \ \ \ \ \frac{\partial\phi}{\partial t}_{j}^{(n)}\approx\opttext{\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n-1)}}{2\Delta t}}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+These can be substituted into the linear advection equation to give
+\begin_inset Formula 
+\[
+\opttext{\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n-1)}}{2\Delta t}+u\frac{\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}}{2\Delta x}=0}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This can be re-arranged to give 
+\begin_inset Formula $\phi_{j}^{(n+1)}$
+\end_inset
+
+, 
+\begin_inset Formula $\phi_{j}$
+\end_inset
+
+ at the next time-step as a function of 
+\begin_inset Formula $\phi$
+\end_inset
+
+s at previous time-steps and at adjacent locations.
+ This can be simplified using the Courant number, 
+\begin_inset Formula $c=u\Delta t/\Delta x$
+\end_inset
+
+ to give:
+\begin_inset Formula 
+\[
+\phi_{j}^{(n+1)}=\opttext{\phi_{j}^{(n-1)}-c_{j}\bigl(\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}\bigr)}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This is the CTCS scheme - Centred in Time, Centred in space, because the
+ approximations for 
+\begin_inset Formula $\partial\phi/\partial t$
+\end_inset
+
+ and 
+\begin_inset Formula $\partial\phi/\partial x$
+\end_inset
+
+ are both centred.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Python code implementing CTCS is given in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:CTCScode"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Exercises
+\end_layout
+
+\begin_layout Enumerate
+Find a finite difference formula for the second derivative, 
+\begin_inset Formula $\partial^{2}\phi/\partial x^{2}$
+\end_inset
+
+, on a grid with spacing 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+ indexed by 
+\begin_inset Formula $j$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Hence derive the forward in time, centred in space (FTCS) scheme for the
+ diffusion equation:
+\begin_inset Formula 
+\[
+\frac{\partial\phi}{\partial t}=K\frac{\partial^{2}\phi}{\partial x^{2}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The equation for inertial oscillations given in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Coriolis"
+
+\end_inset
+
+ is:
+\begin_inset Formula 
+\[
+\frac{\partial\mathbf{u}}{\partial t}=\text{‐}2\bm{\Omega}\times\mathbf{u}.
+\]
+
+\end_inset
+
+Write equations for the horizontal components of 
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+, assuming that:
+\begin_inset Formula 
+\[
+\mathbf{u}=\left(\begin{array}{c}
+u\\
+v\\
+w
+\end{array}\right),\ \ \ 2\bm{\Omega}=\left(\begin{array}{c}
+0\\
+0\\
+f
+\end{array}\right).
+\]
+
+\end_inset
+
+Hence write down a numerical method for integrating 
+\begin_inset Formula $u$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ forward in time.
+\end_layout
+
+\begin_layout Enumerate
+Derive a finite difference scheme for Burger's equation in one dimension:
+\begin_inset Formula 
+\[
+\frac{\partial u}{\partial t}+u\frac{\partial u}{\partial x}=0.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+optpage{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Answers
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\frac{\partial^{2}\phi}{\partial x^{2}}_{j}\approx\frac{\phi_{j+1}-2\phi_{j}+\phi_{j-1}}{\Delta x^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n)}}{\Delta t}\approx\frac{\phi_{j+1}^{(n)}-2\phi_{j}^{(n)}+\phi_{j-1}^{(n)}}{\Delta x^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\partial u/\partial t=fv$
+\end_inset
+
+, 
+\begin_inset Formula $\partial v/\partial t=-fu$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $u^{(n+1)}=u^{(n)}+\Delta t\ f\ v^{(n)}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $v^{(n+1)}=v^{(n)}-\Delta t\ f\ u^{(n+1)}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $u_{j}^{(n+1)}=u_{j}^{(n)}-\Delta t\ u_{j}^{(n)}\frac{u_{j}^{(n)}-u_{j-1}^{(n)}}{\Delta x}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Python Code to Solve the Linear Advection Equation using CTCS
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:CTCScode"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lstinputlisting[basicstyle={
+\backslash
+ttfamily
+\backslash
+codeFont},frame=single,language=Python,tabsize=4,showstringspaces=true,basicstyl
+e=
+\backslash
+small]{practicals/CTCS.py}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

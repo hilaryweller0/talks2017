@@ -1,0 +1,37 @@
+\begin{picture}(0,0)%
+\includegraphics{figs/fx}%
+\end{picture}%
+\setlength{\unitlength}{4144sp}%
+%
+\begingroup\makeatletter\ifx\SetFigFont\undefined%
+\gdef\SetFigFont#1#2#3#4#5{%
+  \reset@font\fontsize{#1}{#2pt}%
+  \fontfamily{#3}\fontseries{#4}\fontshape{#5}%
+  \selectfont}%
+\fi\endgroup%
+\begin{picture}(9653,5865)(346,-5845)
+\put(7126,-976){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\phi_{j+1}$}%
+}}}}
+\put(6256,-451){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\phi_j$}%
+}}}}
+\put(361,-556){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\phi$}%
+}}}}
+\put(5131,-466){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\phi_{j-1}$}%
+}}}}
+\put(1576,-5146){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$x_1$}%
+}}}}
+\put(2566,-5146){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$x_2$}%
+}}}}
+\put(3736,-5686){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$\Delta x$}%
+}}}}
+\put(6121,-5146){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$x_j$}%
+}}}}
+\put(7111,-5191){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$x_{j+1}$}%
+}}}}
+\put(9406,-5416){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$x$}%
+}}}}
+\put(5131,-5146){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$x_{j-1}$}%
+}}}}
+\put(811,-5146){\makebox(0,0)[lb]{\smash{{\SetFigFont{34}{40.8}{\rmdefault}{\mddefault}{\updefault}{\color[rgb]{0,0,0}$x_0$}%
+}}}}
+\end{picture}%

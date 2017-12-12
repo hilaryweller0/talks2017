@@ -1,0 +1,577 @@
+%% LyX 2.0.8.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[10pt,serif]{beamer}
+\usepackage[latin9]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength{\parskip}{0bp}
+\setlength{\parindent}{0pt}
+\usepackage{array}
+\usepackage{mathrsfs}
+\usepackage{url}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathdots}
+\usepackage{graphicx}
+\PassOptionsToPackage{version=3}{mhchem}
+\usepackage{mhchem}
+\usepackage{esint}
+\usepackage[authoryear]{natbib}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+%% A simple dot to overcome graphicx limitations
+\newcommand{\lyxdot}{.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ \AtBeginDocument{
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+ \def\lyxframeend{} % In case there is a superfluous frame end
+ \long\def\lyxframe#1{\@lyxframe#1\@lyxframestop}%
+ \def\@lyxframe{\@ifnextchar<{\@@lyxframe}{\@@lyxframe<*>}}%
+ \def\@@lyxframe<#1>{\@ifnextchar[{\@@@lyxframe<#1>}{\@@@lyxframe<#1>[]}}
+ \def\@@@lyxframe<#1>[{\@ifnextchar<{\@@@@@lyxframe<#1>[}{\@@@@lyxframe<#1>[<*>][}}
+ \def\@@@@@lyxframe<#1>[#2]{\@ifnextchar[{\@@@@lyxframe<#1>[#2]}{\@@@@lyxframe<#1>[#2][]}}
+ \long\def\@@@@lyxframe<#1>[#2][#3]#4\@lyxframestop#5\lyxframeend{%
+   \frame<#1>[#2][#3]{\frametitle{#4}#5}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{animate}
+
+% hack to get natbib working with beamer
+\renewcommand{\newblock}{}
+
+% list modifications
+\setlength{\leftmargini}{0em}
+\setlength{\leftmarginii}{1em}
+
+% make $\times$, $+$, $-$ and $=$ use less space
+\newcommand{\tims}{\negthinspace \times \negthinspace}
+\newcommand{\eq}{\negthinspace = \negthinspace}
+\newcommand{\plus}{\negthinspace + \negthinspace}
+\newcommand{\minus}{\text{-}}
+\newcommand{\smallcdot}{\negthinspace \cdot \negthinspace}
+
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\newcommand{\half}{\nicefrac{1}{2}}
+\usepackage { fancybox}
+
+\setlength{\tabcolsep}{2pt}
+
+\makeatother
+
+\begin{document}
+
+\title{\vspace{-1.5cm}
+\\
+Optimal Transported Meshes on the Sphere for Global Atmospheric Modelling\vspace{-0.5cm}
+}
+
+
+\author{Hilary Weller {\footnotesize{}(Meteorology, University of Reading)}
+and \\
+Phil Browne {\footnotesize{}(now at ECMWF)}}
+
+
+\date{\vspace{-1cm}
+\begin{tabular}{>{\centering}p{0.33\textwidth}>{\centering}p{0.33\textwidth}>{\centering}p{0.33\textwidth}}
+ & 31 March 2017 & \includegraphics[scale=0.2]{/home/hilary/graphics/MetLogo}\tabularnewline
+\end{tabular}}
+
+
+\titlegraphic{%
+\begin{tabular*}{1\textwidth}{@{\extracolsep{\fill}}l||r}
+\multicolumn{2}{l}{\includegraphics[width=1\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/sphereMeshes/MongeAmpereFromPpt/6/movie/pptMesh6}\vspace{-2.5cm}
+}\tabularnewline
+\end{tabular*}}
+
+\makebeamertitle
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{r-Adaptivity}
+\begin{itemize}
+\item \textbf{\textcolor{blue}{R}}edistribution
+
+\begin{itemize}
+\item keep mesh topology fixed
+\item deform the mesh based on a monitor function for more resolution where
+needed
+\end{itemize}
+\item Why? \pause
+
+\begin{itemize}
+\item Adaptivity - more resolution only where needed \pause
+\item No load balancing problems\pause
+\item No need to map solution between meshes\pause
+\item Retro-fit to existing codes\pause
+\end{itemize}
+\item Who not?
+
+\begin{itemize}
+\item Distorted meshes
+\item Never have complete control of $\Delta x$, $\Delta y$ and $\Delta z$
+independently\pause
+\item Any more?\pause
+\end{itemize}
+\item First question:
+
+\begin{itemize}
+\item How do we move the mes
+\end{itemize}
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Optimally Transported Meshes in Euclidean Geometry }
+\begin{itemize}
+\item How to create a mesh which is equidistributed with respect to a monitor
+function. ie
+\[
+A_{x}m\left(\mathbf{x}\right)=\text{const}
+\]
+ for each cell with area $A_{x}$ for mesh monitor function $m\left(\mathbf{x}\right)$.
+\pause
+\item Define a map from old mesh point, $\bm{\xi}$, to new mesh points,
+$\mathbf{x}$ which is the gradient of a convex potential, $\phi$:
+\[
+\mathbf{x}=\bm{\xi}+\nabla\phi
+\]
+This leads to an \textbf{``optimally transported mesh''}, free of
+tangling\pause
+\item Jacobian determinant of mesh transform is the change in area:
+\[
+\det\left(\nabla\mathbf{x}\right)=A_{x}/A_{\xi}
+\]
+
+\item \pause Combine to form a Monge-Amp\'ere equation for mesh potential,
+$\phi$:
+\begin{eqnarray*}
+\det\left(\nabla\left(\bm{\xi}+\nabla\phi\right)\right)m\left(\mathbf{x}\right) & = & \text{const}\\
+\text{or }\ \det\left(I+H\left(\phi\right)\right) & = & \frac{\text{const}}{m\left(\mathbf{x}\right)}
+\end{eqnarray*}
+
+\item \pause This works fine in Euclidean geometry ...
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Numerical Solution of the Monge-Ampère Equation on a Plane \textmd{\normalsize{}(test
+case from \citet{BRW15})}}
+
+\begin{tabular}{ccc}
+Monitor Function, $m$ & Initial Mesh & Solution of \tabularnewline
+ &  & $|I+H\left(\phi\right)|m\left(\mathbf{x}\right)=\text{const}$\tabularnewline
+\includegraphics[width=0.33\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/plane/BuddRusselWalsh/Fig4\lyxdot 4_V0_moreDiags/1/monitor}\textrm{\pause} & \includegraphics[width=0.33\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/plane/BuddRusselWalsh/blankCaseFig4\lyxdot 4_V0/constant/meshAll}\textrm{\pause} & \includegraphics[width=0.33\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/plane/BuddRusselWalsh/Fig4\lyxdot 4_V0_moreDiags/1/Phi}\tabularnewline
+\end{tabular}
+
+Finite volume discretisation in space
+
+Fixed point (Poincaré) outer iterations
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Initial Mesh + $\nabla\phi$ gives an equidistributed mesh}
+
+\begin{tabular}{ccc}
+Initial Mesh, $\bm{\xi}$ & $+\nabla\phi$ & =$\mathbf{x}$\tabularnewline
+\includegraphics[width=0.33\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/plane/BuddRusselWalsh/blankCaseFig4\lyxdot 4_V0/constant/meshAll}\textrm{\pause} & \includegraphics[width=0.33\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/plane/BuddRusselWalsh/Fig4\lyxdot 4_V0_moreDiags/1/Phi}\textrm{\pause} & \includegraphics[width=0.33\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/plane/BuddRusselWalsh/Fig4\lyxdot 4_V0_moreDiags/1/meshAll}\tabularnewline
+\end{tabular}
+
+
+\lyxframeend{}\lyxframe{But on the Surface of a Sphere}
+\begin{itemize}
+\item The gradient of a potential does not map to point on the sphere
+\item $\det\left(\nabla\nabla\phi\right)$ does not give change in area
+\item $\therefore$ cannot formulate a Monge-Ampère equation for the mesh
+potential.
+\end{itemize}
+Instead:\pause
+\begin{itemize}
+\item Use exponential maps to map from old to new mesh:
+\[
+\mathbf{x}=\bm{\xi}+\exp_{\xi}\nabla\phi
+\]
+
+\item \textrm{\pause}Solve the optimal transport problem more directly...:
+\begin{equation}
+\frac{A_{x}}{A_{\xi}}=\frac{\text{const}}{m\left(\mathbf{x}\right)}\label{eq:MAsphere}
+\end{equation}
+
+\item \textrm{\pause }Linearise (\ref{eq:MAsphere}) about zero (assuming
+tangent plane):
+\[
+\frac{A_{x}}{A_{\xi}}\approx\det\left(I+H\left(\phi\right)\right)\approx\pause1+\nabla^{2}\phi
+\]
+
+\item \textrm{\pause }Create Poincaré iterations with non-linear terms
+treated explicitly:
+\[
+1+\nabla^{2}\phi^{n+1}=1+\nabla^{2}\phi^{n}-\frac{A_{x}}{A_{\xi}}+\frac{\text{const}^{n}}{m\left(\mathbf{x}^{n}\right)}
+\]
+
+\end{itemize}
+
+\lyxframeend{}\lyxframe{An Optimally Transported Mesh}
+
+Given the monitor function on the sphere:
+
+\includegraphics[width=1\textwidth]{/home/hilary/OpenFOAM/hilary-2\lyxdot 3\lyxdot 0/run/meshes/sphereMeshes/MongeAmpereV1MedStencil/4/8/0/monitor}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{An Optimally Transported Mesh}
+
+The optimally transported mesh is calculated iteratively:
+
+\animategraphics[width=\linewidth,controls,every=2,poster=first]{3}{/home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/sphereMeshes/MongeAmpereV1MedStencil/4/8anim/movie/mesh}{0}{100}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Precipitation as a Monitor Function}
+
+\vspace{-10pt}
+
+
+{\footnotesize{}
+\[
+m=\frac{p+p_{\min}}{p_{\max}+p_{min}}\ \text{where}\ p_{\min}=10^{-5}\text{kg}\text{m}^{-2}\text{s}^{-1},\ p_{\max}=8.73\times10^{-4}\text{kg}\text{m}^{-2}\text{s}^{-1}
+\]
+}{\footnotesize \par}
+
+\animategraphics[width=\linewidth,controls,poster=first,loop]{1}{/home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/sphereMeshes/MongeAmpereFromPpt/6/movie/pptMesh}{0}{11}
+
+{\small{}Using daily average precipitation rate, 1-12 Oct 2012, from
+the NOAA-CIRES 20th Century Reanalysis version 2 (Compo et al, 2011,
+\url{http://www.esrl.noaa.gov/psd/data/gridded/data.20thC_ReanV2.html})\vfill{}
+See \citet*{WBBC16} }{\small \par}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Solving PDEs on Moving Meshes \pause}
+
+\begin{minipage}[t]{0.7\columnwidth}%
+Apply Reynolds transport theorem:
+\[
+\frac{d}{dt}\int_{\mathscr{V}(t)}\rho\ dV=\int_{\mathscr{V}(t)}\frac{\partial\rho}{\partial t}\ dV+\int_{S}\rho\ \mathbf{v}\cdot\mathbf{dS}
+\]
+to the continuity equation:
+\begin{eqnarray*}
+\frac{\partial\rho}{\partial t}+\nabla\cdot\left(\mathbf{u}\rho\right) & = & 0.
+\end{eqnarray*}
+Discretise in time and apply Gauss's divergence theorem:
+\[
+\frac{\mathscr{V}^{n+1}\rho^{n+1}-\mathscr{V}^{n}\rho^{n}}{\Delta t}=-\int_{S}\rho\left(\mathbf{u}-\mathbf{v}\right)\cdot\mathbf{dS}.
+\]
+%
+\end{minipage}\hfill{} %
+\begin{minipage}[t]{0.25\columnwidth}%
+\noindent \begin{center}
+\textbf{Definitions}:
+\par\end{center}
+
+\begin{tabular}{>{\raggedright}p{0.3\textwidth}>{\raggedright}p{1\textwidth}}
+$\rho$ & density\tabularnewline
+$\mathbf{u}$ & fluid velocity\tabularnewline
+$\mathscr{V}(t)$ & cell volume\tabularnewline
+$S(t)$ & cell surface\tabularnewline
+$\mathbf{dS}$ & outward normal\tabularnewline
+$\mathbf{v}(t)$ & mesh velocity\tabularnewline
+\multicolumn{2}{l}{\textrm{$\left(\mathbf{u}\!-\!\mathbf{v}\right)\cdot\mathbf{dS}$}}\tabularnewline
+ & Volume flux\tabularnewline
+\end{tabular}%
+\end{minipage}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Discretisation}
+
+\begin{minipage}[t]{0.48\columnwidth}%
+\textbf{Definitions}:
+
+\begin{tabular}{cl}
+$n$ & Time-step number\tabularnewline
+$\Delta t$ & Time-step\tabularnewline
+$\rho^{\prime}$ & Temporary value of $\rho^{n+1}$\tabularnewline
+$\phi_{r}$ & Relative face flux\tabularnewline
+ & $=\left(\mathbf{u}\!-\!\mathbf{v}\right)\cdot\mathbf{dS}$\tabularnewline
+\end{tabular}%
+\end{minipage}\hfill{} %
+\begin{minipage}[t]{0.48\columnwidth}%
+\phantom{}\scalebox{0.5}[0.5]{\input{figs/twoCells.pdftex_t}}%
+\end{minipage}
+\begin{itemize}
+\item Discretise in time using RK2:\pause 
+\end{itemize}
+\begin{eqnarray*}
+\mathscr{V}_{f}^{n+1}\rho^{\prime} & = & \mathscr{V}_{f}^{n}\rho^{n}-\Delta t\left(\sum_{\text{faces}}\rho_{f}^{n}\phi_{r}\right)\\
+\mathscr{V}_{f}^{n+1}\rho^{n+1} & = & \mathscr{V}_{f}^{n}\rho^{n}-\frac{\Delta t}{2}\left(\sum_{\text{faces}}\rho_{f}^{n}\phi_{r}+\sum_{\text{faces}}\rho_{f}^{\prime}\phi_{r}\right)
+\end{eqnarray*}
+
+\begin{itemize}
+\item \pause Discretise in space using OpenFOAM's finite volume linear
+upwind advection scheme.
+\end{itemize}
+\[
+\rho_{f}=\rho_{u}+(\mathbf{x}_{f}-\mathbf{x}_{u})\cdot\nabla_{u}\rho
+\]
+
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Results - Solid body rotation}
+
+Test case from \citet{LLM96}
+
+$100\times100$ cells, 2,400 time-steps for one revolution
+
+\begin{tabular}{>{\centering}p{0.48\textwidth}>{\centering}p{0.48\textwidth}}
+Fixed Mesh & monitor $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$ \tabularnewline
+\end{tabular}
+
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/uniformMesh/animategraphics/T_}{0}{12}
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitor/animategraphics/T_}{0}{12}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Results - Solid body rotation}
+
+Monitor function, monitor $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$
+, is smoothed with Laplacian
+
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitor/animategraphics/monitor_}{0}{12}
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitor/animategraphics/mesh_}{0}{12}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Moving Meshes Over Mountains}
+
+
+\lyxframeend{}\lyxframe{Advection Over a Mountain}
+
+$100\times100$ cells, 2,400 time-steps for one revolution
+
+Cone shaped mountain with peak height half the depth of the domain
+
+\begin{tabular}{>{\centering}p{0.48\textwidth}>{\centering}p{0.48\textwidth}}
+Fixed Mesh & monitor $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$ \tabularnewline
+\end{tabular}
+
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/fixedMountain/animategraphics/T_}{0}{12}
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitorMountainEmpty/animategraphics/T_}{0}{2}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Advection Over a Mountain with a Moving Mesh}
+
+$100\times100$ cells, 2,400 time-steps for one revolution, monitor
+$=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$ 
+
+Cone shaped mountain with peak height half the depth of the domain
+
+\begin{tabular}{>{\centering}p{0.48\textwidth}>{\centering}p{0.48\textwidth}}
+Mesh & Uniform tracer $\phi=\half$\tabularnewline
+\end{tabular}
+
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitorMountainEmpty/animategraphics/mesh_}{0}{2}
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitorMountainEmpty/animategraphics/uniT_}{0}{2}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Advection Over a Mountain with a Moving Mesh}
+\begin{itemize}
+\item Zero relative flux over the ground
+\item Mass of tracer conserved exactly ...\pause
+\item Volume of the domain changes as the mesh moves over the mountain\pause
+
+
+\noindent \textcolor{blue}{\Large{}Possible remedies}{\Large \par}
+
+\item \pause Conservative mapping of old to new mesh
+
+\begin{itemize}
+\item Expensive
+\item Exactly what we wanted to avoid with moving meshes
+\item How to move vertices to get the desired volume\pause
+\end{itemize}
+\item An alternative
+
+\begin{itemize}
+\item Assume that the boundary condition is zero normal flow at the fixed
+mountain surface
+\item Calculate a relative flux as the mountain deforms \\
+$\implies$ mass inside the domain will change in proportion to the
+volume
+\end{itemize}
+\end{itemize}
+
+\lyxframeend{}\lyxframe{With flow over the bottom boundary}
+
+$100\times100$ cells, 2,400 time-steps for one revolution, monitor
+$=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$ 
+
+Cone shaped mountain with peak height half the depth of the domain
+
+Relative flux over the bottom boundary
+
+\begin{tabular}{>{\centering}p{0.48\textwidth}>{\centering}p{0.48\textwidth}}
+Gaussian tracer & Mesh\tabularnewline
+\end{tabular}
+
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitorMountain/animategraphics/T_}{0}{12}
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitorMountain/animategraphics/mesh_}{0}{12}
+
+
+\lyxframeend{}\lyxframe{With flow over the bottom boundary}
+
+$100\times100$ cells, 2,400 time-steps for one revolution, monitor
+$=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$ 
+
+Cone shaped mountain with peak height half the depth of the domain
+
+Relative flux over the bottom boundary
+
+\begin{tabular}{>{\centering}p{0.48\textwidth}>{\centering}p{0.48\textwidth}}
+Uniform tracer $\phi=\half$ & \tabularnewline
+\end{tabular}
+
+\animategraphics[width=0.48\linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/advection/solidBodyRotationOnPlane/magGradTmonitorMountain/animategraphics/uniT_}{0}{12}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Remaining Questions}
+\begin{itemize}
+\item Will this be stable when solving the Euler equation?
+\item \pause What about conservative fluxes between bottom boundary and
+domain
+
+\begin{itemize}
+\item air-sea fluxes
+\end{itemize}
+\item \pause What are the implications of the lack of mass conservation?
+\item \pause How important is exact preservation of constants?\pause
+\end{itemize}
+Next - solve incompressible Euler equations
+
+
+\lyxframeend{}\lyxframe{OpenFOAM A-C-grid }
+
+\begin{minipage}[t]{0.72\columnwidth}%
+Incompressible Euler equations in flux form:
+\begin{eqnarray*}
+\frac{\partial\mathbf{u}}{\partial t}+\nabla\cdot\left(\mathbf{u}\mathbf{u}\right) & = & -\nabla p\\
+\nabla\cdot\left(\mathbf{u}\right) & = & 0
+\end{eqnarray*}
+
+
+\resizebox{0.3\paperwidth}{!}{\input{figs/2dgeom.pdftex_t}}\hfill{}\resizebox{0.3\paperwidth}{!}{\input{figs/2dvars.pdftex_t}}%
+\end{minipage}\hfill{} %
+\begin{minipage}[t]{0.25\columnwidth}%
+\noindent \begin{center}
+\textbf{Definitions}:
+\par\end{center}
+
+\begin{tabular}{>{\raggedright}p{0.3\textwidth}>{\raggedright}p{1\textwidth}}
+p & pressure (projection)\tabularnewline
+$\mathbf{u}$ & fluid velocity\tabularnewline
+$\mathbf{u}_{f}$ & velocity at face\tabularnewline
+$U_{S}$ & $=\mathbf{u}_{f}\cdot\mathbf{S}$ (flux)\tabularnewline
+\end{tabular}%
+\end{minipage}
+
+
+\lyxframeend{}\lyxframe{OpenFOAM A-C-grid }
+\begin{itemize}
+\item Apply Reynolds transport theorem to momentum in each cell of volume
+$\mathscr{V}(t)$: 
+\[
+\frac{\mathscr{V}^{n+1}\mathbf{u}^{n+1}-\mathscr{V}^{n}\mathbf{u}^{n}}{\Delta t}=-\int_{S}\mathbf{u}\left(\mathbf{u}-\mathbf{v}\right)\cdot\mathbf{dS}-\int_{\mathscr{V}}\nabla p\ dV
+\]
+
+\item \pause  Interpolate onto cell faces $(\ )_{f}$ and take dot product
+with $\mathbf{S}$:
+\begin{eqnarray*}
+\frac{\mathscr{V}_{f}^{n+1}U_{S}^{n+1}-\mathscr{V}_{f}^{n}\mathbf{u}^{n}\cdot\mathbf{S}^{n+1}}{\Delta t} & = & -\mathbf{S}^{n+1}\cdot\left(\sum_{\text{faces}}U_{r}\mathbf{u}\right)_{f}^{n+\half}-\left(\mathscr{V}_{f}\nabla_{S}p\right)^{n+\half}
+\end{eqnarray*}
+where relative flux is $U_{r}=\left(\mathbf{u}-\mathbf{v}\right)\cdot\mathbf{S}$
+, pressure gradient $\nabla_{S}p=\mathbf{S}\cdot\nabla p$ 
+\end{itemize}
+
+\lyxframeend{}\lyxframe{Interacting Vortices, incompressible Euler equations}
+
+\begin{tabular}{>{\centering}p{0.5\linewidth}c}
+$400\times400$ uniform mesh & $200\times200$ uniform mesh\tabularnewline
+\animategraphics[width=0.5\linewidth,controls,poster=first]{5}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/movingIcoFoam/vorticesFplane_doublyPeriodic/hiResUniformMeshRC/animategraphics/vorticity_}{0}{40} 
+&
+ %\animategraphics[width=0.5\linewidth,controls,poster=first]{10}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/movingIcoFoam/vorticesFplane_doublyPeriodic/uniformMeshRC/animategraphics/vorticity_}{0}{40}\tabularnewline
+\end{tabular}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Conclusions}
+\begin{itemize}
+\item Equation of Monge-Ampère type solved on the surface of a sphere for
+generating an optimally transported mesh\pause
+\item Fluids equations on moving meshes on curved domains (mountains)
+
+\begin{itemize}
+\item Accuracy gains for linear advection
+\item need small flow over boundary to maintain preservation of constants\\
+$\rightarrow$ lack of mass conservation\pause
+\end{itemize}
+\item Shallow water equations on moving meshes on planar domains
+
+\begin{itemize}
+\item Solving Monge-Ampère equation is $\sim\frac{1}{5}$ of total cost
+\item Tighter time-step restrictions
+\item Maintains tighter gradients
+\item Inaccuracies due to distorted meshes
+\end{itemize}
+\end{itemize}
+
+\lyxframeend{}\lyxframe{References}
+
+\textcolor{black}{\tiny{}\bibliographystyle{plainnat}
+\bibliography{numerics}
+}{\tiny \par}
+
+
+\lyxframeend{}
+\end{document}

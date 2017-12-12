@@ -1,0 +1,248 @@
+
+\chapter{Software Architecture}
+
+There are numerous very bad programming practices in science. We will
+cover a few ways in which things could be done better. 
+
+\input{goodCode.tex}
+
+
+\section{Testing\label{sec:testing}}
+
+Code should be tested in situations where you know exactly what the
+output should. This is a crucial part of writing bug-free code. Every
+code and every function within a code should be tested. For a function,
+you should think of a variety of different inputs for which you know
+the output and write a tests that calls the function with those inputs
+and checks that the outputs are as expected. There may also be situations
+where a function is expected to give an error message. The tests should
+include input that you know should give an error message.
+
+There are python modules to help with testing such as \url{unittest}
+and \url{nosetest}. Tools like \url{coverage} can show you how much
+of your code you have tested. There is good integration with some
+integrated development environments (IDEs), such as \url{PyCharm},
+which helps with most aspects of writing, testing, debugging, and
+running code.
+
+\clearpage{}
+
+
+\section{Debugging}
+
+\stepwise{
+
+IDEs (Interactive Development Environments, such as PyCharm) usually
+have useful interactive debugging tools which allow you to set breakpoints
+in the code and see, for example, what all variable values are. There
+are also python libraries such as \url{pdb} which stop the code at
+the line \url{pdb.set_trace()} and then allow you to step through
+and see what all variable values are. You should also be able to debug
+by hand without a dedicated tool, using lots of print statements.
+Here are some tips:
+\begin{itemize}
+\item \step{You should try to re-produce the problem with the simplest
+code and with arrays set as small as possible so that the code runs
+(and crashes) quickly and so that you can re-produce the calculations
+by hand in order to check what the code is doing.}\step{
+\item You should have some idea of where things go wrong. Start by putting
+in print statements at a point in the code shortly before everything
+went wrong. Print out variables that you think might be related to
+the problem and check that their values are as expected. }\step{
+\item Put in print statements further up where you think that everything
+was working fine, printing out relevant variables.}\step{
+\item Using more print statements, find where in between things go wrong.
+}\step{
+\item When you have found and corrected the bug, delete all the de-bugging
+code rather than commenting it out. You do not want your code littered
+with commented out code. You might like to save all of the debug statements
+in a branch of a version control repository so that you can refer
+to it later. }\step{
+\item Think how this bug happened and how you can better test your code
+in future to avoid bugs like that happening again.}
+\end{itemize}
+}\clearpage{}
+
+
+\section{Version Control using git\label{sec:git}}
+
+Very quickly after starting to write code, you will find that you
+have modified the code and it doesn't do what you want any more, you
+have multiple versions and you can't keep track, two people are working
+on the same code and getting in a muddle, you cannot reproduce the
+results that you got yesterday. You need to be using version control
+software like \url{git} and a repository hosting service like \url{https://github.com/},
+which also provides archiving and backup.
+
+\pause There are numerous online resources for how to use \url{git}
+and \url{github}. This will therefore be a tiny introduction. A more
+comprehensive introduction is at, for example:\\
+\url{https://swcarpentry.github.io/git-novice/}\\
+and\\
+\url{http://product.hubspot.com/blog/git-and-github-tutorial-for-beginners}.
+You should really also know about collaborating, branching and merging
+in \url{git} but this little introduction will cover setting up a
+repository, adding to it, pushing and pulling from a remote repository
+and recovering old versions. This introduction draws heavily from
+the Software Carpentry introduction. \pause 
+
+
+\subsection{Setting up \protect\url{git}}
+
+These are the commands that I used to set up \url{git} for my login
+on the machines at Cambridge:
+
+\begin{lstlisting}
+$ git config --global user.name "Hilary Weller"
+$ git config --global user.email "h.weller@reading.ac.uk"
+$ git config --global color.ui "auto"
+$ git config --global core.editor "gedit --wait --new-window"
+\end{lstlisting}
+
+
+\clearpage{}
+
+
+\subsection{Setting up a Local Repository}
+
+Next set up a local repository for my \url{helloWorld.py} code:
+
+\begin{lstlisting}
+# Initialise the local directory as a git repository
+$ git init
+# Add files to the repo, check and commit them with a commit message
+$ git add helloWorld.py
+# Now the file is staged for commit. This can be checked and committed:
+$ git status
+$ git commit -m "First commit"
+\end{lstlisting}
+\pause 
+
+
+\subsection{Sign up for a \protect\url{github} account and create a Remote Repository}
+\begin{itemize}
+\item Sign up for a free account allowing unlimited public code at \url{https://github.com/}
+\item Create a new repository at \url{https://github.com/new} or by following
+the links. I created a repository called \url{helloWorld}. My new
+\url{github} user name is \url{studentSpencer0}. 
+\end{itemize}
+\pause 
+
+
+\subsection{Link the local and remote repositories}
+
+Copy the url of your new repository. Mine is \url{https://github.com/studentSpencer0/helloWorld}.
+Then, on the command line:
+\begin{lstlisting}
+$ git remote add origin https://github.com/studentSpencer0/helloWorld
+$ git remote -v     # (to verify the new remove URL)
+\end{lstlisting}
+\pause 
+
+
+\subsection{Push the changes in your local repository to GitHub.}
+
+If you initialised the remote repository with a README pull and merge
+before push
+\begin{lstlisting}
+$ git pull origin master
+\end{lstlisting}
+After closing the window that asks you to write a merge message you
+can now do:
+
+\begin{lstlisting}
+$ git push origin master
+\end{lstlisting}
+ Now have a look at the url for your repository and see your new code
+there.
+
+\clearpage{}
+
+
+\subsection{Some more configuration}
+
+To avoid always having to specify
+\begin{lstlisting}
+origin master
+\end{lstlisting}
+when pushing and pulling, you can set some more defaults
+\begin{lstlisting}
+$ git config --global pull.default matching
+$ git branch --set-upstream-to=origin/master master
+\end{lstlisting}
+Now to push and pull you only need:
+\begin{lstlisting}
+$ git pull
+$ git push
+\end{lstlisting}
+You can avoid entering your \url{github} username and password every
+time you push by typing:
+\begin{lstlisting}
+git config credential.helper store
+\end{lstlisting}
+\pause 
+
+
+\subsection{Adding all suitable files}
+
+We may have a directory structure full of files that we want to add
+to the repository. However it is important not to add large or binary
+files to a git repository. Therefore we need a \url{.gitignore} file
+to tell git not to add files with well known extensions that imply
+that they are binary files. You can copy my \url{.gitignore} file:
+
+\begin{lstlisting}[basicstyle=\scriptsize]
+$ wget https://raw.githubusercontent.com/studentSpencer0/helloWorld/master/.gitignore
+\end{lstlisting}
+
+You can now add all files in the directory structure to the repository
+without the risk of adding large or binary files
+\begin{lstlisting}
+$ git add .
+\end{lstlisting}
+\clearpage{}
+
+
+\subsection{Retrieving Old Versions}
+\begin{itemize}
+\item In order to see a list of commit ids and messages:
+\begin{lstlisting}
+$ git log
+\end{lstlisting}
+\pause 
+\item If you make some changes to a file (say \url{helloWorld.py}), you
+can see the differences between what is on disk and the version of
+the previous commit:
+\begin{lstlisting}
+$ git diff helloWorld.py
+# or if you have already added helloWorld.py but not committed:
+$ git diff HEAD helloWorld.py
+# or if you want to compare helloWorld.py to the version from 
+# three commits ago:
+$ git diff HEAD~3 helloWorld.py
+\end{lstlisting}
+\pause 
+\item You can also show the difference between a file on disk and a previous
+commit using the commit id:
+\begin{lstlisting}
+$ git diff cb27fc3e526dbdcd49b70b3f08a520ae271f8be5 helloWorld.py
+\end{lstlisting}
+\pause 
+\item To show what changes were made at an older commit rather than differences
+between working directory and a commit:
+\begin{lstlisting}
+$ git show HEAD~3 helloWorld.py
+\end{lstlisting}
+\pause 
+\item If you need to discard the changes that you have made and go back
+to the most recent commit:
+\begin{lstlisting}
+$ git checkout -- helloWorld.py
+\end{lstlisting}
+or to go back to a particular commit (just using first few letters
+of the commit id):
+\begin{lstlisting}
+$ git checkout f22b25e helloWorld.py
+\end{lstlisting}
+\end{itemize}
+

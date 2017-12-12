@@ -1,0 +1,5 @@
+Complex numbers
+Tayor Series
+(Eigen values)
+Fourier analysis
+

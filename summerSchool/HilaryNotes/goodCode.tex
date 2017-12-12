@@ -1,0 +1,87 @@
+\section{Some Good Programming Practices}\label{sec:goodCode}
+
+\begin{enumerate}
+\item Plan your code before writing it. Work out exactly what variables you will need and how big all the arrays will need to be. Work out how to structure your code using data structures and functions.
+\item Comments:
+    \begin{enumerate}
+    \item All codes should have over-arching comments, ie general comments describing the overall purpose of the whole programme. 
+    \item All functions should have doc-strings. Doc-strings are descriptions of the function to document them. They are in double quotes and appear immediately after the function definition line. 
+    \item Blocks of code and loops should have comments describing what they do.
+    \item Do not make obvious comments (eg loop from 0 to $n-1$ every 1).
+    \item Make sure that comments are up to date with the code.
+    \end{enumerate}
+
+\item Write efficient code:
+    \begin{enumerate}
+    \item Do not declare more arrays than you need (unless this dramatically improves the style).
+    \item Where possible, avoid conditionals inside loops. For example, do not test a conditional every time around a loop if you know exactly where it will be different.
+    
+     {\bf Good \hspace{-0.05\linewidth}}
+    \begin{minipage}[t]{0.45\linewidth}\vspace{-10pt}
+        \begin{lstlisting}
+        u[0] = ...
+        u[N] = ...
+        for i in xrange(1,N):
+            u[i] = ...
+        \end{lstlisting}
+    \end{minipage}
+    {\bf Bad \hspace{-0.05\linewidth}}
+    \begin{minipage}[t]{0.3\linewidth}\vspace{-10pt}
+        \begin{lstlisting}
+        for i in xrange(0,N+1):
+            if i == 0:
+                u[i] = ...
+            else if i == N:
+                u[i] = ...
+            else:
+                u[i] = ...
+        \end{lstlisting}
+    \end{minipage} \vspace{-12pt} \\
+The second version is more complex code, longer and more expensive to run.
+    \item When looping over an array, do not recalculate the whole array every time around.
+    \end{enumerate}
+
+\item Coding to Avoid Errors:
+    \begin{enumerate}
+    \item Avoid code duplication by using functions and by getting the structure of the code right.
+
+    \item Avoid very deep nested loops. Use functions instead.
+
+    \item Use variables rather than having input parameters as numbers and pass variables as arguments to functions rather than re-defining them in each function.
+
+    \item Use data structures to avoid long argument lists to functions.
+
+    \item If there are any dependencies between variables, calculate these in the code.
+    
+    \item Avoid global variables apart from for true constants such as $\pi$ and $e$.
+    \end{enumerate}
+
+\item Code readability:
+    \begin{enumerate}
+    \item Put space between functions, space between blocks, space either side of $=$ and space where needed to make the code more readable. For example:\\
+    \begin{minipage}[t]{0.35\linewidth}\centerline{
+        \tt y = a*x**2 + b*x + c
+    }\end{minipage}
+    \begin{minipage}[t]{0.25\linewidth}\centerline{
+        not
+    }\end{minipage}
+    \begin{minipage}[t]{0.35\linewidth}\centerline{
+        \tt y=x ** 2+b*x+c
+    }\end{minipage}
+    
+    \item Do not use more brackets than you need.
+
+    \item Wrap long lines -- unless inside brackets, use \textbackslash\ at the end of the line so that the next line is a continuation. Set up your text editor to avoid lines longer than 80 characters.
+    
+    \item Make the code look like the maths.
+    
+    \item Use good variable names (eg use {\tt i} to loop over an array {\tt x} in direction $x$.)
+
+    \end{enumerate}
+    
+    \item Re-write. It is difficult to get the design right first time. Once you have got it all working, now is the time to re-structure to improve readability, efficiency and extensibility. 
+    
+    \item Python specific: If you are new to using arrays and looping over arrays you should make sure that you can do all initialisation and manipulation of arrays by hand, looping over arrays, rather than using inbuilt python handling of arrays. However once you are confident manipulating arrays, you should use numpy array manipulations instead of explicit loops as this will be faster and take fewer lines of code.
+\end{enumerate}
+
+

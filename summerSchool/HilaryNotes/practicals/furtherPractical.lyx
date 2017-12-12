@@ -1,0 +1,174 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass report
+\use_default_options false
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics pdftex
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 1
+\tocdepth 1
+\paragraph_separation indent
+\paragraph_indentation 0bp
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle empty
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Practical: Implement a Better Numerical Method 
+\end_layout
+
+\begin_layout Standard
+For this practical you have two choices:
+\end_layout
+
+\begin_layout Enumerate
+Implement a better numerical method for the equation you were solving in
+ the first practical
+\end_layout
+
+\begin_layout Enumerate
+Solve a different equation using a sensibly chosen numerical method
+\end_layout
+
+\begin_layout Standard
+There are many possibilities:
+\end_layout
+
+\begin_layout Enumerate
+If you are solving an advection equation, you might like to consider using
+ one of:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+A monotonic advection scheme
+\end_layout
+
+\begin_layout Enumerate
+Semi-Lagrangian advection
+\end_layout
+
+\begin_layout Enumerate
+The Lax-Wendroff method
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compare explicit and implicit time-stepping.
+\end_layout
+
+\begin_layout Enumerate
+You might like to consider using Runge-Kutta time-stepping
+\end_layout
+
+\begin_layout Enumerate
+You might like to increase the order of accuracy of the spatial discretisation
+\end_layout
+
+\begin_layout Enumerate
+If you are solving the shallow water equations
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Try adding non-linear terms
+\end_layout
+
+\begin_layout Enumerate
+Try using a different Arakawa grid
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Try using variable spatial resolution or adaptive time-stepping
+\end_layout
+
+\begin_layout Standard
+You should search online for ideas of a numerical method to use.
+ You can also refer to my MSc teaching notes:
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.met.reading.ac.uk/~sws02hs/teaching/MTMW12/MTMW12_2_lec.pdf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

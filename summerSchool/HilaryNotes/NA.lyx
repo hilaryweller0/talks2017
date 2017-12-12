@@ -1,0 +1,2892 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass report
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Chapter
+Numerical Analysis
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Numerical analysis is about predicting mathematically how a numerical method
+ will behave before coding it up and testing it.
+ There are many aspects of numerical analysis but in this chapter, order
+ of accuracy and stability will be discussed.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Accuracy and Order of Accuracy
+\end_layout
+
+\begin_layout Standard
+The accuracy of a numerical method is closely associated with the order
+ of accuracy.
+ If a finite difference scheme uses a grid spacing 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+, and if errors are bounded by 
+\begin_inset Formula $C\Delta x^{n}$
+\end_inset
+
+ for some constant 
+\begin_inset Formula $C$
+\end_inset
+
+, then the method is 
+\begin_inset Formula $n$
+\end_inset
+
+th order accurate.
+ Errors converge to zero at a rate proportional to 
+\begin_inset Formula $\Delta x^{n}$
+\end_inset
+
+ as 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+ decreases.
+ This can be written 
+\begin_inset Formula $O(\Delta x^{n})$
+\end_inset
+
+.
+ Accuracy and order of accuracy can be analysed using Taylor series.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Accuracy of CTCS discretisations
+\end_layout
+
+\begin_layout Standard
+CTCS uses centred in space and time discretisations for gradients:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi}{\partial x}_{j}=\phi_{j}^{\prime}\approx\opttext{\frac{\phi_{j+1}-\phi_{j-1}}{2\Delta x}}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+To derive this formula and find is order of accuracy, we need to write down
+ the Taylor series approximations for 
+\begin_inset Formula $\phi_{j-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi_{j+1}$
+\end_inset
+
+ about 
+\begin_inset Formula $\phi_{j}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\phi_{j-1} & \approx\opttext{\phi_{j}-\Delta x\phi_{j}^{\prime}+\frac{\Delta x^{2}}{2!}\phi_{j}^{\prime\prime}-\frac{\Delta x^{3}}{3!}\phi_{j}^{\prime\prime\prime}+\cdots}\\
+\phi_{j+1} & \approx\opttext{\phi_{j}+\Delta x\phi_{j}^{\prime}+\frac{\Delta x^{2}}{2!}\phi_{j}^{\prime\prime}+\frac{\Delta x^{3}}{3!}\phi_{j}^{\prime\prime\prime}+\cdots}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can assume that we know 
+\begin_inset Formula $\phi_{j}$
+\end_inset
+
+, 
+\begin_inset Formula $\phi_{j-1}$
+\end_inset
+
+, 
+\begin_inset Formula $\phi_{j+1}$
+\end_inset
+
+.
+ We want to find the most accurate approximation for 
+\begin_inset Formula $\phi_{j}^{\prime}$
+\end_inset
+
+ so we eliminate the largest unknown, 
+\begin_inset Formula $\Delta x^{2}\phi_{j}^{\prime\prime}$
+\end_inset
+
+, and rearrange to find 
+\begin_inset Formula $\phi_{j}^{\prime}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\implies\phi_{j+1}-\phi_{j-1} & \approx\opttext{2\Delta x\phi_{j}^{\prime}+\frac{\Delta x^{3}}{3}\phi_{j}^{\prime\prime\prime}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .\\
+\implies\phi_{j}^{\prime} & \approx\opttext{\frac{\phi_{j+1}-\phi_{j-1}}{2\Delta x}-\frac{\Delta x^{2}}{3!}\phi_{j}^{\prime\prime\prime}}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset VSpace 0.1cm
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi_{j}^{\prime\prime\prime}$
+\end_inset
+
+ is unknown so the leading error term is 
+\begin_inset Formula $\frac{\Delta x^{2}}{3!}\phi_{j}^{\prime\prime\prime}$
+\end_inset
+
+ so CTCS is second order accurate.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The error is proportional to 
+\begin_inset Formula $\phi^{\prime\prime\prime}=\partial^{3}\phi/\partial x^{3}$
+\end_inset
+
+.
+ This term makes the numerical solution dispersive - this is a term in a
+ dispersion equation.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Exercises
+\end_layout
+
+\begin_layout Enumerate
+Use the Taylor series to find an approximation for 
+\begin_inset Formula $f_{j}^{\prime}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j-1}$
+\end_inset
+
+.
+ What order accuracy is it?
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Derive an uncentred, second order difference formula for 
+\begin_inset Formula $f_{j}^{\prime}$
+\end_inset
+
+ that uses 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+, 
+\begin_inset Formula $f_{j+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j+2}$
+\end_inset
+
+.
+ (And show that it is second order accurate) 
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Find a uncentred approximation for 
+\begin_inset Formula $f_{j}^{\prime\prime}$
+\end_inset
+
+ using 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+, 
+\begin_inset Formula $f_{j+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j+2}$
+\end_inset
+
+.
+ What order accurate is it? 
+\end_layout
+
+\begin_layout Enumerate
+Derive a second order approximation for 
+\begin_inset Formula $f_{b}^{\prime}$
+\end_inset
+
+ from 
+\begin_inset Formula $f_{a}$
+\end_inset
+
+, 
+\begin_inset Formula $f_{b}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+ at 
+\begin_inset Formula $x$
+\end_inset
+
+ locations 
+\begin_inset Formula $a<b<c$
+\end_inset
+
+ when the grid spacing is not regular.
+ (And show that it is second order accurate) 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+optpage{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Answers
+\end_layout
+
+\begin_layout Enumerate
+Use the Taylor series to find an approximation for 
+\begin_inset Formula $f_{j}^{\prime}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j-1}$
+\end_inset
+
+.
+ What order accuracy is it?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Write the Taylor series for 
+\begin_inset Formula $f_{j-1}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j-1}=f_{j}-\Delta xf_{j}^{\prime}+O(\Delta x^{2})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Rearrange to find 
+\begin_inset Formula $f_{j}^{\prime}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j}^{\prime}=(f_{j}-f_{j-1})/\Delta x+O(\Delta x)$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+Note dividing 
+\begin_inset Formula $O(\Delta x^{2})$
+\end_inset
+
+ by 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+ gives 
+\begin_inset Formula $O(\Delta x)$
+\end_inset
+
+ so the approximation is first order accurate
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Derive an uncentred, second order difference formula for 
+\begin_inset Formula $f_{j}^{\prime}$
+\end_inset
+
+ that uses 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+, 
+\begin_inset Formula $f_{j+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j+2}$
+\end_inset
+
+.
+ (And show that it is second order accurate)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Taylor approximations for 
+\begin_inset Formula $f_{j+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j+2}$
+\end_inset
+
+ about 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j+1}=f_{j}+\Delta xf_{j}^{\prime}+\frac{\Delta x^{2}}{2!}f_{j}^{\prime\prime}+\frac{\Delta x^{3}}{3!}f_{j}^{\prime\prime\prime}+\frac{\Delta x^{4}}{4!}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j+2}=f_{j}+2\Delta xf_{j}^{\prime}+2\Delta x^{2}f_{j}^{\prime\prime}+\frac{4\Delta x^{3}}{3}f_{j}^{\prime\prime\prime}+\frac{2\Delta x^{4}}{3}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Eliminate the largest unknown, 
+\begin_inset Formula $f_{j}^{\prime\prime}$
+\end_inset
+
+ by calculating 
+\begin_inset Formula $f_{j+2}-4f_{j+1}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j+2}-4f_{j+1}=-3f_{j}-2\Delta x\ f_{j}^{\prime}+O(\Delta x^{3})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Rearrange to find 
+\begin_inset Formula $f_{j}^{\prime}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j}^{\prime}=\left(-f_{j+2}+4f_{j+1}-3f_{j}\right)/(2\Delta x)+O(\Delta x^{2})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Find an uncentred approximation for 
+\begin_inset Formula $f_{j}^{\prime\prime}$
+\end_inset
+
+ using 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+, 
+\begin_inset Formula $f_{j+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j+2}$
+\end_inset
+
+.
+ What order accurate is it? 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Taylor approximations for 
+\begin_inset Formula $f_{j+1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{j+2}$
+\end_inset
+
+ about 
+\begin_inset Formula $f_{j}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j+1}=f_{j}+\Delta xf_{j}^{\prime}+\frac{\Delta x^{2}}{2!}f_{j}^{\prime\prime}+\frac{\Delta x^{3}}{3!}f_{j}^{\prime\prime\prime}+\frac{\Delta x^{4}}{4!}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j+2}=f_{j}+2\Delta xf_{j}^{\prime}+2\Delta x^{2}f_{j}^{\prime\prime}+\frac{4\Delta x^{3}}{3}f_{j}^{\prime\prime\prime}+\frac{2\Delta x^{4}}{3}f_{j}^{\prime\prime\prime\prime}+O(\Delta x^{5})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Eliminate the largest unknown, 
+\begin_inset Formula $f_{j}^{\prime}$
+\end_inset
+
+ by calculating 
+\begin_inset Formula $f_{j+2}-2f_{j+1}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j+2}-2f_{j+1}=-f_{j}-\Delta x^{2}\ f_{j}^{\prime\prime}+O(\Delta x^{3})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Rearrange to find 
+\begin_inset Formula $f_{j}^{\prime\prime}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{j}^{\prime\prime}=\left(-f_{j+2}+2f_{j+1}-f_{j}\right)/\Delta x^{2}+O(\Delta x)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Derive a second order approximation for 
+\begin_inset Formula $f_{b}^{\prime}$
+\end_inset
+
+ from 
+\begin_inset Formula $f_{a}$
+\end_inset
+
+, 
+\begin_inset Formula $f_{b}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+ at 
+\begin_inset Formula $x$
+\end_inset
+
+ locations 
+\begin_inset Formula $a<b<c$
+\end_inset
+
+ when the grid spacing is not regular.
+ (And show that it is second order accurate)
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Define 
+\begin_inset Formula $\Delta x_{1}=b-a$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta x_{2}=c-b$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta x=\max\left(\Delta x_{1},\Delta x_{2}\right)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Taylor approximations for 
+\begin_inset Formula $f_{a}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+ about 
+\begin_inset Formula $f_{b}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{a}=f_{b}-\Delta x_{1}\ f_{b}^{\prime}+\frac{\Delta x_{1}^{2}}{2!}f_{b}^{\prime\prime}-\frac{\Delta x_{1}^{3}}{3!}f_{b}^{\prime\prime\prime}+\frac{\Delta x_{1}^{4}}{4!}f_{b}^{\prime\prime\prime\prime}+O(\Delta x_{1}^{5})$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f_{c}=f_{b}+\Delta x_{2}\ f_{b}^{\prime}+\frac{\Delta x_{2}^{2}}{2!}f_{b}^{\prime\prime}+\frac{\Delta x_{2}^{3}}{3!}f_{b}^{\prime\prime\prime}+\frac{\Delta x_{2}^{4}}{4!}f_{b}^{\prime\prime\prime\prime}+O(\Delta x_{2}^{5})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Eliminate the largest unknown, 
+\begin_inset Formula $f_{b}^{\prime\prime}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}=\Delta x_{1}^{2}\left\{ f_{b}+\Delta x_{2}f_{b}^{\prime}+O(\Delta x_{2}^{3})\right\} -\Delta x_{2}^{2}\left\{ f_{b}-\Delta x_{1}f_{b}^{\prime}+O(\Delta x_{1}^{3})\right\} $
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Rearrange to find 
+\begin_inset Formula $f_{b}^{\prime}$
+\end_inset
+
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}=\Delta x_{1}^{2}f_{b}+\Delta x_{1}^{2}\Delta x_{2}f_{b}^{\prime}+O(\Delta x_{2}^{3}\Delta x_{1}^{2})-\Delta x_{2}^{2}f_{b}+\Delta x_{1}\Delta x_{2}^{2}f_{b}^{\prime}+O(\Delta x_{1}^{3}\Delta x_{2}^{2})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\implies\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}=\left(\Delta x_{1}^{2}-\Delta x_{2}^{2}\right)f_{b}+\Delta x_{1}\Delta x_{2}\left(\Delta x_{1}+\Delta x_{2}\right)f_{b}^{\prime}+O(\Delta x^{5})$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\implies f_{b}^{\prime}=\frac{\Delta x_{1}^{2}f_{c}-\Delta x_{2}^{2}f_{a}-\left(\Delta x_{1}^{2}-\Delta x_{2}^{2}\right)f_{b}}{\Delta x_{1}\Delta x_{2}\left(\Delta x_{1}+\Delta x_{2}\right)}+O(\Delta x^{2})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Stability of Numerical Methods
+\end_layout
+
+\begin_layout Standard
+This section will first consider the stability of numerical methods for
+ systems of linear ordinary differential equations (ODEs, with time-stepping
+ but no spatial differentials).
+ This will then be generalised to systems of partial differential equations
+ (PDEs, with spatial and temporal differentials).
+ However, first we will consider the stability of a system of linear ODEs
+ without discretisation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Stability of a System of Linear ODEs
+\end_layout
+
+\begin_layout Standard
+Consider a system of ODEs of the form
+\begin_inset Formula 
+\begin{equation}
+\frac{d\mathbf{y}}{dt}=M\mathbf{y}\label{eq:linearODE}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+
+ is the vector of dependent variables and 
+\begin_inset Formula $M$
+\end_inset
+
+ is an 
+\begin_inset Formula $N\times N$
+\end_inset
+
+ matrix.
+ Eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:linearODE"
+
+\end_inset
+
+) has stable solutions if all of the eigenvalues of 
+\begin_inset Formula $M$
+\end_inset
+
+ have negative real parts.
+ The solutions are unstable if at least one of the eigenvalues has a positive
+ real part.
+ If some of the eigenvalues have zero real part, it is more complicated.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Example
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consider the equations for damped inertial oscillations
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{du}{dt} & = & -fv-\alpha u\\
+\frac{dv}{dt} & = & fu-\alpha v
+\end{eqnarray*}
+
+\end_inset
+
+where 
+\begin_inset Formula $f$
+\end_inset
+
+ is the Coriolis parameter, 
+\begin_inset Formula $u$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ are the wind components in the westerly and southerly directions and 
+\begin_inset Formula $\alpha>0$
+\end_inset
+
+ represents friction.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+ This can be written as
+\begin_inset Formula 
+\begin{equation}
+\frac{d\mathbf{y}}{dt}=M\mathbf{y}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{y}=\opttext{\left(\begin{array}{c}
+u\\
+v
+\end{array}\right)}$
+\end_inset
+
+ and 
+\begin_inset Formula $M=\opttext{\left(\begin{array}{cc}
+-\alpha & -f\\
+f & -\alpha
+\end{array}\right)}$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+ The eigenvalues of 
+\begin_inset Formula $M$
+\end_inset
+
+ can be called 
+\begin_inset Formula $\lambda_{j}$
+\end_inset
+
+ for 
+\begin_inset Formula $j=1,2$
+\end_inset
+
+ and they can be found by solving 
+\begin_inset Formula 
+\begin{eqnarray}
+det(M-\lambda I) & = & 0\\
+\implies\opttext{\biggl|\begin{array}{cc}
+-\lambda-\alpha & -f\\
+f & -\lambda-\alpha
+\end{array}\biggr|} & = & 0\\
+\implies\opttext{\left(\lambda+\alpha\right)^{2}+f^{2}} & = & 0\\
+\implies\lambda & =-\alpha & \pm if
+\end{eqnarray}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+So we can set 
+\begin_inset Formula $\lambda_{1}=-\alpha+if$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{2}=-\alpha-if$
+\end_inset
+
+.
+ These eigenvalues have negative real parts so the system is stable -- ie
+ the solutions do not tend to infinity.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Exercise
+\end_layout
+
+\begin_layout Standard
+Consider a very simple climate model in which the rate of change of the
+ global mean temperature, 
+\begin_inset Formula $T$
+\end_inset
+
+, is proportional to the concentration of carbon dioxide, 
+\begin_inset Formula $c$
+\end_inset
+
+, but is damped with parameter 
+\begin_inset Formula $\beta$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\frac{dT}{dt}=\alpha c-\beta T
+\]
+
+\end_inset
+
+and the rate of change of the concentration, 
+\begin_inset Formula $c$
+\end_inset
+
+, is temperature dependent:
+\begin_inset Formula 
+\begin{equation}
+\frac{dc}{dt}=\gamma T.
+\end{equation}
+
+\end_inset
+
+Find the eigenvalues of the set of ODEs and, assuming that parameters 
+\begin_inset Formula $\alpha>0$
+\end_inset
+
+, 
+\begin_inset Formula $\beta>0$
+\end_inset
+
+ and 
+\begin_inset Formula $\gamma>0$
+\end_inset
+
+, predict if the climate will reach a new equilibrium or if there will be
+ run-away climate change.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+lecText{
+\end_layout
+
+\end_inset
+
+Eigenvalues 
+\begin_inset Formula $\lambda_{1}=-\beta$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda_{2}=\alpha$
+\end_inset
+
+ 
+\begin_inset Formula $\therefore$
+\end_inset
+
+ runaway global warming.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Stability of Numerical Time-Stepping
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are numerically solving an equation of the form
+\begin_inset Formula 
+\begin{equation}
+\frac{dy}{dt}=\lambda y.\label{eq:1dlinODE}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+To predict stability of the numerical method, we find an amplification factor,
+ 
+\begin_inset Formula $A$
+\end_inset
+
+, such that 
+\begin_inset Formula 
+\begin{equation}
+y^{(n+1)}=Ay^{(n)}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $y^{(n)}$
+\end_inset
+
+ and 
+\begin_inset Formula $y^{(n+1)}$
+\end_inset
+
+ are the values of 
+\begin_inset Formula $y$
+\end_inset
+
+ predicted by the numerical method at time-steps 
+\begin_inset Formula $n$
+\end_inset
+
+ and 
+\begin_inset Formula $n+1$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is a real number, then the numerical method is stable 
+\begin_inset Formula $\iff|A|\le1$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is a complex number then the numerical method is stable 
+\begin_inset Formula $\iff||A||\le1$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $A$
+\end_inset
+
+ is a matrix then the numerical method is stable if 
+\begin_inset Formula $\rho(A)\le1$
+\end_inset
+
+ where 
+\begin_inset Formula $\rho(A)$
+\end_inset
+
+ is the spectral radius of 
+\begin_inset Formula $A$
+\end_inset
+
+; the largest eigenvalue of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Example
+\end_layout
+
+\begin_layout Standard
+Consider the explicit, first-order Euler method for solving eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:1dlinODE"
+
+\end_inset
+
+):
+\begin_inset Formula 
+\begin{equation}
+y^{(n+1)}=y^{(n)}+\Delta t\lambda y^{(n)}.
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+Substitute in 
+\begin_inset Formula $y^{(n+1)}=Ay^{(n)}$
+\end_inset
+
+ and divide through by 
+\begin_inset Formula $y^{(n)}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+A=\opttext{1-\lambda\Delta t}.
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+Assuming that 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is real, we require 
+\begin_inset Formula $|A|\le1$
+\end_inset
+
+ for stability which occurs when:
+\begin_inset Formula 
+\begin{alignat*}{3}
+ & -1 & \le & 1-\lambda\Delta t & \le & 1\\
+\iff & 0 & \le & -\lambda\Delta t & \le & 2\\
+\iff & \lambda & \le & 0\\
+\text{and }\  & \Delta t & \le & -2/\lambda
+\end{alignat*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Exercises
+\begin_inset CommandInset label
+LatexCommand label
+name "ex:ODEstab"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Find the stability characteristics of solving the oscillation equation
+\begin_inset Formula 
+\begin{equation}
+\frac{dy}{dt}=i\lambda y\label{eq:oscEqn}
+\end{equation}
+
+\end_inset
+
+using Euler forward time-stepping.
+\end_layout
+
+\begin_layout Enumerate
+Find the stability characteristics of solving the oscillation equation (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:oscEqn"
+
+\end_inset
+
+) using Euler backward time-stepping:
+\begin_inset Formula 
+\begin{equation}
+y^{(n+1)}=y^{(n)}+i\Delta t\lambda y^{(n+1)}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The off-centred Crank-Nicholson scheme for solving (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:oscEqn"
+
+\end_inset
+
+) is:
+\begin_inset Formula 
+\begin{equation}
+\frac{y^{(n+1)}-y^{(n)}}{\Delta t}=i\lambda\left(\alpha y^{(n+1)}+(1-\alpha)y^{(n)}\right)
+\end{equation}
+
+\end_inset
+
+with off-centering defined by 
+\begin_inset Formula $\alpha$
+\end_inset
+
+.
+ Find the values of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ for which this scheme is stable.
+ Also find the value of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ for which the scheme is not damping (a scheme is damping if 
+\begin_inset Formula $||A||<1$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+optpage{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Answers
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $A=1-i\lambda\Delta t\ \implies\ ||A||^{2}=1+\lambda^{2}\Delta t^{2}\ \implies$
+\end_inset
+
+ the scheme is unconditionally unstable -- unstable for all values of 
+\begin_inset Formula $\Delta t>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $A=1/(1-i\Delta t\lambda)\ \implies\ ||A||^{2}=1/(1+\lambda^{2}\Delta t^{2})\ \implies$
+\end_inset
+
+ the scheme is unconditionally stable -- stable for all values of 
+\begin_inset Formula $\Delta t>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $A=\left(1+i(1-\alpha)\lambda\Delta t\right)/\left(1+i\alpha\lambda\Delta t\right)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\implies||A||^{2}=\left(1+(1-\alpha)^{2}\lambda^{2}\Delta t^{2}\right)/\left(1+\alpha^{2}\lambda^{2}\Delta t^{2}\right)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\therefore\ ||A||^{2}\le1\ \iff\ \alpha^{2}\lambda^{2}\Delta t^{2}\ge(1-\alpha)^{2}\lambda^{2}\Delta t^{2}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\iff\alpha\ge1-\alpha\ \iff\ \alpha\ge1/2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Stability of Numerical Methods for Systems of ODEs
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are solving a system of linear ODEs:
+\begin_inset Formula 
+\begin{equation}
+\frac{d\mathbf{y}}{dt}=A\mathbf{y}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+
+ is a vector of 
+\begin_inset Formula $N$
+\end_inset
+
+ dependent variables and 
+\begin_inset Formula $A$
+\end_inset
+
+ is an 
+\begin_inset Formula $N\times N$
+\end_inset
+
+ matrix with eigenvalues 
+\begin_inset Formula $\lambda_{1},\ \lambda_{2},\ \ldots\lambda_{N}$
+\end_inset
+
+.
+ The chosen time-stepping scheme will be stable if and only if that scheme
+ is stable for solving
+\begin_inset Formula 
+\begin{equation}
+\frac{dx}{dt}=\lambda_{j}x\ \text{ for all }\ \lambda_{j}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Example
+\end_layout
+
+\begin_layout Standard
+Consider the equations governing inertial oscillations:
+\begin_inset Formula 
+\begin{equation}
+\frac{d}{dt}\left(\begin{array}{c}
+u\\
+v
+\end{array}\right)=\left(\begin{array}{cc}
+0 & -f\\
+f & 0
+\end{array}\right)\left(\begin{array}{c}
+u\\
+v
+\end{array}\right)\label{eq:inertOsc}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $f$
+\end_inset
+
+ is the Coriolis parameter.
+ 
+\begin_inset Formula $A=\left(\begin{array}{cc}
+0 & -f\\
+f & 0
+\end{array}\right)$
+\end_inset
+
+ has eigenvalues 
+\begin_inset Formula $\lambda_{j}=\opttext{\pm if}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+.
+ From the solutions to exercises 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex:ODEstab"
+
+\end_inset
+
+, what do we know about the stability of Euler forward, Euler backward and
+ off-centered Crank-Nicolson for solving eqn(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:inertOsc"
+
+\end_inset
+
+)?
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+opttext{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Euler forward is unconditionally unstable
+\end_layout
+
+\begin_layout Itemize
+Euler backward is unconditionally stable
+\end_layout
+
+\begin_layout Itemize
+Off-centred Crank-Nicolson is stable for 
+\begin_inset Formula $\alpha\ge1/2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Stability Analysis of Linear Partial Differential Equations using Eigenvalues
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consider a PDE of the form
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi}{\partial t}=A\phi+B\frac{\partial\phi}{\partial x}+C\frac{\partial^{2}\phi}{\partial x^{2}}.
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+We find spatial discretisations for 
+\begin_inset Formula $\frac{\partial\phi}{\partial x}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{\partial^{2}\phi}{\partial x^{2}}$
+\end_inset
+
+ so that we get a set of ODEs:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\phi_{j}}{\partial t}=A\phi_{j}+B\sum_{k}b_{k}\phi_{k}+C\sum_{k}c_{k}\phi_{k}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $j$
+\end_inset
+
+ is the position on the grid.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+ This ODE can be written as a matrix equation:
+\begin_inset Formula 
+\begin{equation}
+\frac{\partial\bm{\phi}}{\partial t}=M\bm{\phi}\label{eq:linPDE}
+\end{equation}
+
+\end_inset
+
+and we can then perform stability analysis as before.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This technique is suitable for testing schemes for irregular grids.
+ However we will consider an example on a 1d uniform grid.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Example
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consider the heat equation with periodic boundary conditions
+\begin_inset Formula 
+\[
+\frac{\partial T}{\partial t}=K\frac{\partial^{2}T}{\partial x^{2}}.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+This can be solved using forward Euler in time and a centred discretisation
+ in space (FTCS):
+\begin_inset Formula 
+\begin{equation}
+\frac{T_{j}^{(n+1)}-T_{j}^{(n)}}{\Delta t}=\frac{K}{\Delta x^{2}}\left(T_{j-1}^{(n)}-2T_{j}^{(n)}+T_{j+1}^{(n)}\right).\label{eq:FTCS_diff}
+\end{equation}
+
+\end_inset
+
+This gives:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\backslash
+renewcommand
+\backslash
+arraystretch{1.5}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+M=\left({\textstyle \begin{array}{cccccccc}
+{\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}} & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & 0 & 0 & \cdots & 0 & {\textstyle \frac{K\Delta t}{\Delta x^{2}}}\\
+{\textstyle \frac{K\Delta t}{\Delta x^{2}}} & {\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}} & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & 0 & \cdots & 0 & 0\\
+0 & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & {\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}} & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots &  & \vdots & \vdots\\
+{\textstyle \frac{K\Delta t}{\Delta x^{2}}} & 0 & 0 & 0 & 0 & \cdots & {\textstyle \frac{K\Delta t}{\Delta x^{2}}} & {\textstyle 1-2\frac{K\Delta t}{\Delta x^{2}}}
+\end{array}}\right)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+The easiest way to find the eigenvalues of 
+\begin_inset Formula $M$
+\end_inset
+
+ is to use a linear algebra package such as those in python or matlab.
+ However this will only give you eigenvalues for particular values of 
+\begin_inset Formula ${\textstyle \frac{K\Delta t}{\Delta x^{2}}}$
+\end_inset
+
+.
+ The easiest way to find the stability properties of eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:FTCS_diff"
+
+\end_inset
+
+) is using von-Neumann stability analysis which is suitable for numerical
+ methods on uniform grids.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Von-Neumann Stability Analysis
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The initial conditions of any PDE, or the solution at any time, can be written
+ as a sum of Fourier modes:
+\begin_inset Formula 
+\begin{equation}
+\phi(x,t)=\sum_{k}A_{k}(t)\ e^{ikx}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Linear numerical methods, such as those that can be written as in eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:linPDE"
+
+\end_inset
+
+), operating on linear PDEs, operate independently on each Fourier mode
+ of a solution.
+ Therefore we only need to analyse the influence of a numerical method on
+ a Fourier mode.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+We will consider the one-dimensional linear advection equation:
+\begin_inset Formula 
+\begin{equation}
+{\displaystyle \frac{\partial\phi}{\partial t}+u\frac{\partial\phi}{\partial x}=0}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+and the forward in time, backward in space (FTBS) scheme for linear advection:
+\begin_inset Formula 
+\begin{equation}
+\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n)}}{\Delta t}+u\frac{\phi_{j}^{(n)}-\phi_{j-1}^{(n)}}{\Delta x}=0
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+which can be re-arranged to give 
+\begin_inset Formula $\phi_{j}^{(n+1)}$
+\end_inset
+
+ in terms of the 
+\begin_inset Formula $\phi_{j}$
+\end_inset
+
+s at the previous time-step and the Courant number, 
+\begin_inset Formula $c=u\Delta t/\Delta x$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{equation}
+\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-c\bigl(\phi_{j}^{(n)}-\phi_{j-1}^{(n)}\bigr)\label{eq:FTBS}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+Replace the 
+\begin_inset Formula $\phi$
+\end_inset
+
+s in eqn (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:FTBS"
+
+\end_inset
+
+) with one Fourier mode and an amplification factor that multiplies the
+ solution at every time-step:
+\begin_inset Formula 
+\begin{equation}
+\phi_{j}^{(n)}=A^{n}e^{ikj\Delta x}
+\end{equation}
+
+\end_inset
+
+giving:
+\begin_inset Formula 
+\begin{equation}
+\opttext{A^{n+1}e^{ikj\Delta x}=A^{n}e^{ikj\Delta x}-c\left(A^{n}e^{ikj\Delta x}-A^{n}e^{ik(j-1)\Delta x}\right)}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+stepwise{
+\end_layout
+
+\end_inset
+
+Cancelling powers of 
+\begin_inset Formula $A^{n}e^{ikj\Delta x}$
+\end_inset
+
+ gives an expression for 
+\begin_inset Formula $A$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+A=\opttext{1-c(1-e^{-ik\Delta x})}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+We need to find the magnitude of 
+\begin_inset Formula $A$
+\end_inset
+
+ so we need to write it down in real and imaginary form.
+ So substitute 
+\begin_inset Formula $e^{-ik\Delta x}=\cos k\Delta x-i\sin k\Delta x$
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{equation}
+A=\opttext{1-c(1-\cos k\Delta x)-ic\sin k\Delta x}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+and calculate 
+\begin_inset Formula $|A|^{2}=AA^{*}$
+\end_inset
+
+ (
+\begin_inset Formula $A$
+\end_inset
+
+ multiplied by its complex conjugate):
+\begin_inset Formula 
+\begin{align*}
+|A|^{2} & =1-2c(1-\cos k\Delta x)+c^{2}(1-2\cos k\Delta x+\cos^{2}k\Delta x)+c^{2}\sin^{2}k\Delta x\\
+\implies|A|^{2} & =1-2c(1-c)(1-\cos k\Delta x)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+We need to find for what value of 
+\begin_inset Formula $\Delta t$
+\end_inset
+
+ or 
+\begin_inset Formula $c$
+\end_inset
+
+ is 
+\begin_inset Formula $|A|\le1$
+\end_inset
+
+ in order to find when FTBS is stable: 
+\begin_inset Formula 
+\begin{align*}
+|A|\le1 & \iff|A|^{2}-1\le0\\
+ & \iff-2c(1-c)(1-\cos k\Delta x)\le0\\
+ & \iff c(1-c)(1-\cos k\Delta x)\ge0
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\backslash
+step{
+\end_layout
+
+\end_inset
+
+We know that 
+\begin_inset Formula $1-\cos k\Delta x\ge0$
+\end_inset
+
+ for all 
+\begin_inset Formula $k\Delta x$
+\end_inset
+
+ so FTBS is stable when
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Formula $c(1-c)\ge0\iff0\le c\le1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We have proved that FTBS is unstable if 
+\begin_inset Formula $u<0$
+\end_inset
+
+ or if 
+\begin_inset Formula $\frac{u\Delta t}{\Delta x}>1$
+\end_inset
+
+.
+ We will now define:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Upwind scheme 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FTBS 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+when 
+\begin_inset Formula $u\ge0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FTFS 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+when 
+\begin_inset Formula $u<0$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The upwind scheme is first order accurate in space and time, conditionally
+ stable and damping.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Exercises
+\end_layout
+
+\begin_layout Enumerate
+Find the amplification factor and hence determine the stability of the forward
+ in time, centred in space (FTCS) scheme for linear advection:
+\begin_inset Formula 
+\[
+\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-\frac{c}{2}\left(\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Find the amplification factor and hence determine the stability of the forward
+ in time, centred in space (FTCS) scheme for the heat equation: 
+\begin_inset Formula 
+\[
+\frac{T_{j}^{(n+1)}-T_{j}^{(n)}}{\Delta t}=\frac{K}{\Delta x^{2}}\left(T_{j-1}^{(n)}-2T_{j}^{(n)}+T_{j+1}^{(n)}\right).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+optpage{
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Solutions
+\end_layout
+
+\begin_layout Enumerate
+FTCS: 
+\begin_inset Formula $\phi_{j}^{(n+1)}=\phi_{j}^{(n)}-\frac{c}{2}\left(\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}\right)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Substitute in 
+\begin_inset Formula $\phi_{j}^{(n)}=A^{n}e^{ikj\Delta x}$
+\end_inset
+
+ and cancel powers of 
+\begin_inset Formula $A^{n}e^{ikj\Delta x}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+A= & 1-\frac{c}{2}(e^{ik\Delta x}-e^{-ik\Delta x})\\
+= & 1-ic\sin k\Delta x
+\end{align*}
+
+\end_inset
+
+Find for what Courant numbers the scheme is stable: 
+\begin_inset Formula 
+\begin{align*}
+A= & 1-ic\sin k\Delta x\\
+\Rightarrow|A|^{2}= & 1+c^{2}\sin^{2}k\Delta x
+\end{align*}
+
+\end_inset
+
+which is 
+\begin_inset Formula $>1$
+\end_inset
+
+ for all 
+\begin_inset Formula $|c|>0$
+\end_inset
+
+ and so FTCS is unconditioanlly unstable
+\end_layout
+
+\begin_layout Enumerate
+For the FTCS scheme for diffusion we use the shorthand 
+\begin_inset Formula $d=\frac{K\Delta t}{\Delta x^{2}}$
+\end_inset
+
+.
+ Then:
+\begin_inset Formula 
+\begin{eqnarray}
+A & = & 1+d(e^{ik\Delta x}-2+e^{-ik\Delta x})\\
+ & = & 1-2d(1-\cos k\Delta x)
+\end{eqnarray}
+
+\end_inset
+
+We require the scheme to be stable for all wavenumbers, 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ So find for what values of 
+\begin_inset Formula $d$
+\end_inset
+
+ the scheme is stable for all values of 
+\begin_inset Formula $k\Delta x$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align*}
+ & -1\le A\le1\\
+\iff & -1\le1-2d(1-\cos k\Delta x)\le1\\
+\iff & 1\ge-1+2d(1-\cos k\Delta x)\ge-1\ \text{ add one to all 3 sides}\\
+\iff & 2\ge2d(1-\cos k\Delta x)\ge0\ \text{ divide through by }2d\ \text{(which is always positive) }\\
+\iff & 0\le(1-\cos k\Delta x)\le\frac{1}{d}
+\end{align*}
+
+\end_inset
+
+Sketch 
+\begin_inset Formula $1-\cos k\Delta x$
+\end_inset
+
+ to find its maximum and minimum values.
+ From this we can see that 
+\begin_inset Formula $0\le(1-\cos k\Delta x)\le2$
+\end_inset
+
+ for any value of 
+\begin_inset Formula $k\Delta x$
+\end_inset
+
+.
+ For stability we need 
+\begin_inset Formula $(1-\cos k\Delta x)\le\frac{1}{d}$
+\end_inset
+
+ for 
+\shape italic
+every
+\shape default
+ value of 
+\begin_inset Formula $k\Delta x$
+\end_inset
+
+ so we need:
+\begin_inset Formula 
+\[
+2\le\frac{1}{d}\ \iff d\le\frac{1}{2}\ \iff K\Delta t/\Delta x^{2}\le\frac{1}{2}\ \iff\Delta t\le\frac{\Delta x^{2}}{2K}
+\]
+
+\end_inset
+
+If in addition we do not want the solution to oscillate in sign from one
+ time-step (ie non-oscillatory) to the next then we require: 
+\begin_inset Formula 
+\begin{align*}
+ & 0\le A\le1\\
+\iff & 0\le1-2d(1-\cos k\Delta x)\le1\\
+\iff & 0\ge-1+2d(1-\cos k\Delta x)\ge-1\\
+\iff & 1/2\ge d(1-\cos k\Delta x)\ge0\\
+\iff & 1/(2(1-\cos k\Delta x))\ge d\ge0~\text{ since }~0\le1-\cos k\Delta x\le2\\
+\Leftarrow~~ & d\le\frac{1}{4}\iff\Delta t\le\frac{\Delta x^{2}}{4K}
+\end{align*}
+
+\end_inset
+
+So for large 
+\begin_inset Formula $K$
+\end_inset
+
+ or for high resolution (small 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+) a very small time-step must be taken for FTCS to be stable
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,16 @@
+Best Practices - All looks good. I like the advice on re-writing, I think this is important as you rarely get things right first time. I would add something along the lines of:
+
+    Where possible, try to use numpy array manipulations instead of for loops. This will be faster and take fewer lines of code.
+
+
+Testing - This might be more than you want to put in, but I would mention that there are testing frameworks such as unittest, nosetest that can help writing tests and making them easier to run. Tools like coverage can show you how much of your code you have tested. There is good integration with some IDEs, such as...
+
+
+(bonus) IDEs - PyCharm is my personal favourite, I am a recent convert! It helps with most aspects of writing/testing/debugging/running code. It also has vim keybindings, and is free for academics.
+
+
+Debugging - Fine. I also like using interactive debugging as well as print statements. This is easy in e.g. PyCharm, when you can set breakpoints in the code and see what e.g. all variables' values are.
+
+You can do some pretty useful things with pdb / ipdb (both python debugging libraries). If you put "import pdb; pdb.set_trace()" in your code, then run it, it will stop on that line and you can access all the variables in scope at that time in a python shell. You can step forward with 'n', step into a function with 's', and continue with 'c'. ipdb does that same, but within an ipython shell. Both of these are handy when debugging on a remote server (e.g. ssh'd in).
+
+Git - Good. Typo on 2nd last example on p34 - should be "git checkout...".

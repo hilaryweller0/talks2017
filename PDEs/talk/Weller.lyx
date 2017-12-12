@@ -1,0 +1,2907 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage{animate}
+
+% hack to get natbib working with beamer
+\renewcommand{\newblock}{}
+
+% list modifications
+\setlength{\leftmargini}{0em}
+\setlength{\leftmarginii}{1em}
+
+% make $\times$, $+$, $-$ and $=$ use less space
+\newcommand{\tims}{\negthinspace \times \negthinspace}
+\newcommand{\eq}{\negthinspace = \negthinspace}
+\newcommand{\plus}{\negthinspace + \negthinspace}
+\newcommand{\minus}{\text{-}}
+\newcommand{\smallcdot}{\negthinspace \cdot \negthinspace}
+
+\newcommand{\nicefrac}[2]{\ensuremath ^{#1}\!\!/\!_{#2}}
+\newcommand{\half}{\nicefrac{1}{2}}
+\usepackage { fancybox}
+
+\setlength{\tabcolsep}{2pt}
+\end_preamble
+\options serif,handout
+\use_default_options false
+\maintain_unincluded_children false
+\language british
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref section
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_amsmath 2
+\use_esint 2
+\use_mhchem 2
+\use_mathdots 2
+\cite_engine natbib_authoryear
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip 0bp
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+\begin_inset VSpace -1.5cm
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Optimal Transported Meshes on the Sphere for Global Atmospheric Modelling
+\begin_inset VSpace -0.5cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Author
+Hilary Weller 
+\size footnotesize
+(Meteorology, University of Reading)
+\size default
+ and 
+\begin_inset Newline newline
+\end_inset
+
+Phil Browne 
+\size footnotesize
+(now at ECMWF)
+\end_layout
+
+\begin_layout Date
+\begin_inset VSpace -1cm
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="33text%">
+<column alignment="center" valignment="top" width="33text%">
+<column alignment="center" valignment="top" width="33text%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+31 March 2017
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/graphics/MetLogo.png
+	lyxscale 20
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle" tabularwidth="100text%">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="right" valignment="top" width="0pt">
+<row>
+<cell multicolumn="1" alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/sphereMeshes/MongeAmpereFromPpt/6/movie/pptMesh6.png
+	lyxscale 50
+	width 100text%
+
+\end_inset
+
+
+\begin_inset VSpace -2.5cm
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="right" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+r-Adaptivity
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+\color blue
+R
+\series default
+\color inherit
+edistribution
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+keep mesh topology fixed
+\end_layout
+
+\begin_layout Itemize
+deform the mesh based on a monitor function for more resolution where needed
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Why? 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Adaptivity - more resolution only where needed 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+No load balancing problems
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+No need to map solution between meshes
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Retro-fit to existing codes
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Who not?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Distorted meshes
+\end_layout
+
+\begin_layout Itemize
+Never have complete control of 
+\begin_inset Formula $\Delta x$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta y$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta z$
+\end_inset
+
+ independently
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Any more?
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+First question:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+How do we move the mesh
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Optimally Transported Meshes in Euclidean Geometry 
+\end_layout
+
+\begin_layout Itemize
+How to create a mesh which is equidistributed with respect to a monitor
+ function.
+ ie
+\begin_inset Formula 
+\[
+A_{x}m\left(\mathbf{x}\right)=\text{const}
+\]
+
+\end_inset
+
+ for each cell with area 
+\begin_inset Formula $A_{x}$
+\end_inset
+
+ for mesh monitor function 
+\begin_inset Formula $m\left(\mathbf{x}\right)$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Define a map from old mesh point, 
+\begin_inset Formula $\bm{\xi}$
+\end_inset
+
+, to new mesh points, 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ which is the gradient of a convex potential, 
+\begin_inset Formula $\phi$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\mathbf{x}=\bm{\xi}+\nabla\phi
+\]
+
+\end_inset
+
+This leads to an 
+\series bold
+
+\begin_inset Quotes eld
+\end_inset
+
+optimally transported mesh
+\begin_inset Quotes erd
+\end_inset
+
+
+\series default
+, free of tangling
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Jacobian determinant of mesh transform is the change in area:
+\begin_inset Formula 
+\[
+\det\left(\nabla\mathbf{x}\right)=A_{x}/A_{\xi}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+Combine to form a Monge-Amp
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+'e
+\end_layout
+
+\end_inset
+
+re equation for mesh potential, 
+\begin_inset Formula $\phi$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{eqnarray*}
+\det\left(\nabla\left(\bm{\xi}+\nabla\phi\right)\right)m\left(\mathbf{x}\right) & = & \text{const}\\
+\text{or }\ \det\left(I+H\left(\phi\right)\right) & = & \frac{\text{const}}{m\left(\mathbf{x}\right)}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+This works fine in Euclidean geometry ...
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Numerical Solution of the Monge-Ampère Equation on a Plane 
+\series medium
+\size normal
+(test case from 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "BRW15"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Monitor Function, 
+\begin_inset Formula $m$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Initial Mesh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Solution of 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $|I+H\left(\phi\right)|m\left(\mathbf{x}\right)=\text{const}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/plane/BuddRusselWalsh/Fig4.4_V0_moreDiags/1/monitor.pdf
+	lyxscale 50
+	width 33text%
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/plane/BuddRusselWalsh/blankCaseFig4.4_V0/constant/meshAll.pdf
+	lyxscale 50
+	width 33text%
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/plane/BuddRusselWalsh/Fig4.4_V0_moreDiags/1/Phi.pdf
+	lyxscale 50
+	width 33text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finite volume discretisation in space
+\end_layout
+
+\begin_layout Standard
+Fixed point (Poincaré) outer iterations
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Initial Mesh + 
+\begin_inset Formula $\nabla\phi$
+\end_inset
+
+ gives an equidistributed mesh
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Initial Mesh, 
+\begin_inset Formula $\bm{\xi}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $+\nabla\phi$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+=
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/plane/BuddRusselWalsh/blankCaseFig4.4_V0/constant/meshAll.pdf
+	lyxscale 50
+	width 33text%
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/plane/BuddRusselWalsh/Fig4.4_V0_moreDiags/1/Phi.pdf
+	lyxscale 50
+	width 33text%
+
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/hilary/OpenFOAM/hilary-2.3.0/run/meshes/plane/BuddRusselWalsh/Fig4.4_V0_moreDiags/1/meshAll.pdf
+	lyxscale 50
+	width 33text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+But on the Surface of a Sphere
+\end_layout
+
+\begin_layout Itemize
+The gradient of a potential does not map to point on the sphere
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\det\left(\nabla\nabla\phi\right)$
+\end_inset
+
+ does not give change in area
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\therefore$
+\end_inset
+
+ cannot formulate a Monge-Ampère equation for the mesh potential.
+\end_layout
+
+\begin_layout Standard
+Instead:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Use exponential maps to map from old to new mesh:
+\begin_inset Formula 
+\[
+\mathbf{x}=\bm{\xi}+\exp_{\xi}\nabla\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+Solve the optimal transport problem more directly...:
+\begin_inset Formula 
+\begin{equation}
+\frac{A_{x}}{A_{\xi}}=\frac{\text{const}}{m\left(\mathbf{x}\right)}\label{eq:MAsphere}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+Linearise (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:MAsphere"
+
+\end_inset
+
+) about zero (assuming tangent plane):
+\begin_inset Formula 
+\[
+\frac{A_{x}}{A_{\xi}}\approx\det\left(I+H\left(\phi\right)\right)\approx\pause1+\nabla^{2}\phi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+Create Poincaré iterations with non-linear terms treated explicitly:
+\begin_inset Formula 
+\[
+1+\nabla^{2}\phi^{n+1}=1+\nabla^{2}\phi^{n}-\frac{A_{x}}{A_{\xi}}+\frac{\text{const}^{n}}{m\left(\mathbf{x}^{n}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Precipitation as a Monitor Function
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace -10pt
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\begin_inset Formula 
+\[
+m=\frac{p+p_{\min}}{p_{\max}+p_{min}}\ \text{where}\ p_{\min}=10^{-5}\text{kg}\text{m}^{-2}\text{s}^{-1},\ p_{\max}=8.73\times10^{-4}\text{kg}\text{m}^{-2}\text{s}^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=
+\backslash
+linewidth,controls,poster=first,loop]{1}{/home/hilary/OpenFOAM/hilary-2.3.0/run/me
+shes/sphereMeshes/MongeAmpereFromPpt/6/movie/pptMesh}{0}{11}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+Using daily average precipitation rate, 1-12 Oct 2012, from the NOAA-CIRES
+ 20th Century Reanalysis version 2 (Compo et al, 2011, 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.esrl.noaa.gov/psd/data/gridded/data.20thC_ReanV2.html
+\end_layout
+
+\end_inset
+
+)
+\begin_inset VSpace vfill
+\end_inset
+
+See 
+\begin_inset CommandInset citation
+LatexCommand citet*
+key "WBBC16"
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Solving PDEs on Moving Meshes 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "70col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Apply Reynolds transport theorem:
+\begin_inset Formula 
+\[
+\frac{d}{dt}\int_{\mathscr{V}(t)}\rho\ dV=\int_{\mathscr{V}(t)}\frac{\partial\rho}{\partial t}\ dV+\int_{S}\rho\ \mathbf{v}\cdot\mathbf{dS}
+\]
+
+\end_inset
+
+to the continuity equation:
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{\partial\rho}{\partial t}+\nabla\cdot\left(\mathbf{u}\rho\right) & = & 0.
+\end{eqnarray*}
+
+\end_inset
+
+Discretise in time and apply Gauss's divergence theorem:
+\begin_inset Formula 
+\[
+\frac{\mathscr{V}^{n+1}\rho^{n+1}-\mathscr{V}^{n}\rho^{n}}{\Delta t}=-\int_{S}\rho\left(\mathbf{u}-\mathbf{v}\right)\cdot\mathbf{dS}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+ 
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "25col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\series bold
+Definitions
+\series default
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top" width="100text%">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+density
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fluid velocity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathscr{V}(t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cell volume
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $S(t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cell surface
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbf{dS}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+outward normal
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbf{v}(t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mesh velocity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left(\mathbf{u}\!-\!\mathbf{v}\right)\cdot\mathbf{dS}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Volume flux
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Discretisation
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Definitions
+\series default
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time-step number
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta t$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time-step
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\rho^{\prime}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Temporary value of 
+\begin_inset Formula $\rho^{n+1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\phi_{r}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Relative face flux
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=\left(\mathbf{u}\!-\!\mathbf{v}\right)\cdot\mathbf{dS}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+ 
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Phantom Phantom
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset External
+	template XFig
+	filename figs/twoCells.fig
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Discretise in time using RK2:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathscr{V}_{f}^{n+1}\rho^{\prime} & = & \mathscr{V}_{f}^{n}\rho^{n}-\Delta t\left(\sum_{\text{faces}}\rho_{f}^{n}\phi_{r}\right)\\
+\mathscr{V}_{f}^{n+1}\rho^{n+1} & = & \mathscr{V}_{f}^{n}\rho^{n}-\frac{\Delta t}{2}\left(\sum_{\text{faces}}\rho_{f}^{n}\phi_{r}+\sum_{\text{faces}}\rho_{f}^{\prime}\phi_{r}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+Discretise in space using OpenFOAM's finite volume linear upwind advection
+ scheme.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\rho_{f}=\rho_{u}+(\mathbf{x}_{f}-\mathbf{x}_{u})\cdot\nabla_{u}\rho
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Results - Solid body rotation
+\end_layout
+
+\begin_layout Standard
+Test case from 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "LLM96"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells, 2,400 time-steps for one revolution
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="48text%">
+<column alignment="center" valignment="top" width="48text%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed Mesh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+monitor 
+\begin_inset Formula $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/uniformMesh/animategraphics/T_}{0}{12}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitor/animategraphics/T_}{0}{12}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Results - Solid body rotation
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitor/animategraphics/mesh_}{0}{12}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Advection Over a Mountain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells, 2,400 time-steps for one revolution
+\end_layout
+
+\begin_layout Standard
+Cone shaped mountain with peak height half the depth of the domain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="48text%">
+<column alignment="center" valignment="top" width="48text%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed Mesh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+monitor 
+\begin_inset Formula $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/fixedMountain/animategraphics/T_}{0}{12}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitorMountainEmpty/animategraphics/T_
+}{0}{4}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Advection Over a Mountain with a Moving Mesh
+\end_layout
+
+\begin_layout Itemize
+Zero relative flux over the ground
+\end_layout
+
+\begin_layout Itemize
+Mass of tracer conserved exactly ...
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Volume of the domain changes as the mesh moves over the mountain
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+
+\size larger
+\color blue
+Possible remedies
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+ Conservative mapping of old to new mesh
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Expensive
+\end_layout
+
+\begin_layout Itemize
+Exactly what we wanted to avoid with moving meshes
+\end_layout
+
+\begin_layout Itemize
+How to move vertices to get the necessary volume?
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+An alternative
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Assume that the boundary condition is zero normal flow at the fixed mountain
+ surface
+\end_layout
+
+\begin_layout Itemize
+Calculate a relative flux as the mountain deforms 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\implies$
+\end_inset
+
+ mass inside the domain will change in proportion to the volume
+\end_layout
+
+\end_deeper
+\begin_layout BeginFrame
+With flow over the bottom boundary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells, 2,400 time-steps for one revolution, monitor 
+\begin_inset Formula $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Cone shaped mountain with peak height half the depth of the domain
+\end_layout
+
+\begin_layout Standard
+Relative flux over the bottom boundary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="48text%">
+<column alignment="center" valignment="top" width="48text%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gaussian tracer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mesh
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitorMountain/animategraphics/T_}{0}{
+12}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitorMountain/animategraphics/mesh_}{
+0}{12}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+Remaining Questions
+\end_layout
+
+\begin_layout Itemize
+Will this be stable when solving the Euler equation?
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+ What are the implications of the lack of mass conservation?
+\end_layout
+
+\begin_layout Standard
+Next - solve incompressible Euler equations
+\end_layout
+
+\begin_layout BeginFrame
+OpenFOAM A-C-grid 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "72col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Incompressible Euler equations in flux form:
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{\partial\mathbf{u}}{\partial t}+\nabla\cdot\left(\mathbf{u}\mathbf{u}\right) & = & -\nabla p\\
+\nabla\cdot\left(\mathbf{u}\right) & = & 0
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset External
+	template XFig
+	filename figs/2dgeom.fig
+	width 30page%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset External
+	template XFig
+	filename figs/2dvars.fig
+	width 30page%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+ 
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "25col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\series bold
+Definitions
+\series default
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="30text%">
+<column alignment="left" valignment="top" width="100text%">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+p
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pressure (projection)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbf{u}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fluid velocity
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbf{u}_{f}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+velocity at face
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $U_{S}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=\mathbf{u}_{f}\cdot\mathbf{S}$
+\end_inset
+
+ (flux)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout BeginFrame
+OpenFOAM A-C-grid 
+\end_layout
+
+\begin_layout Itemize
+Apply Reynolds transport theorem to momentum in each cell of volume 
+\begin_inset Formula $\mathscr{V}(t)$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\frac{\mathscr{V}^{n+1}\mathbf{u}^{n+1}-\mathscr{V}^{n}\mathbf{u}^{n}}{\Delta t}=-\int_{S}\mathbf{u}\left(\mathbf{u}-\mathbf{v}\right)\cdot\mathbf{dS}-\int_{\mathscr{V}}\nabla p\ dV
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause 
+\end_layout
+
+\end_inset
+
+ Interpolate onto cell faces 
+\begin_inset Formula $(\ )_{f}$
+\end_inset
+
+ and take dot product with 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{\mathscr{V}_{f}^{n+1}U_{S}^{n+1}-\mathscr{V}_{f}^{n}\mathbf{u}^{n}\cdot\mathbf{S}^{n+1}}{\Delta t} & = & -\mathbf{S}^{n+1}\cdot\left(\sum_{\text{faces}}U_{r}\mathbf{u}\right)_{f}^{n+\half}-\left(\mathscr{V}_{f}\nabla_{S}p\right)^{n}
+\end{eqnarray*}
+
+\end_inset
+
+where relative flux is 
+\begin_inset Formula $U_{r}=\left(\mathbf{u}-\mathbf{v}\right)\cdot\mathbf{S}$
+\end_inset
+
+ , pressure gradient 
+\begin_inset Formula $\nabla_{S}p=\mathbf{S}\cdot\nabla p$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout BeginFrame
+Interacting Vortices, incompressible Euler equations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="50line%">
+<column alignment="center" valignment="top" width="50line%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $400\times400$
+\end_inset
+
+ uniform mesh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $200\times200$
+\end_inset
+
+ uniform mesh
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{10}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/m
+ovingIcoFoam/vorticesFplane_doublyPeriodic/hiResUniformMeshRC/animategraphics/vo
+rticity_}{0}{40}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{10}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/m
+ovingIcoFoam/vorticesFplane_doublyPeriodic/uniformMeshRC/animategraphics/vortici
+ty_}{0}{40}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $200\times200$
+\end_inset
+
+ Monitor Function 
+\begin_inset Formula $=\max\left(1/16+||\nabla\mathbf{u}||/5\times10^{-5},1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.75
+\backslash
+linewidth,controls,poster=first]{10}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/m
+ovingIcoFoam/vorticesFplane_doublyPeriodic/linGradURC16/animategraphics/vorticit
+yMesh_}{0}{40}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Conclusions
+\end_layout
+
+\begin_layout Itemize
+Equation of Monge-Ampère type solved on the surface of a sphere for generating
+ an optimally transported mesh
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Advection over a mountain using a moving mesh
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Accuracy gains using adaptivity
+\end_layout
+
+\begin_layout Itemize
+need small flow over boundary to maintain preservation of constants
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ lack of mass conservation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Incompressible Euler equations on moving meshes 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Solving Monge-Ampère equation is 
+\begin_inset Formula $\sim\frac{1}{5}$
+\end_inset
+
+ of total cost
+\end_layout
+
+\begin_layout Itemize
+Tighter time-step restrictions
+\end_layout
+
+\begin_layout Itemize
+Accuracy gains using adaptivity
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Advection Over a Mountain with a Moving Mesh
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells, 2,400 time-steps for one revolution, monitor 
+\begin_inset Formula $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Cone shaped mountain with peak height half the depth of the domain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="48text%">
+<column alignment="center" valignment="top" width="48text%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mesh
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Uniform tracer 
+\begin_inset Formula $\phi=\half$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitorMountainEmpty/animategraphics/me
+sh_}{0}{4}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitorMountainEmpty/animategraphics/un
+iT_}{0}{4}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+With flow over the bottom boundary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $100\times100$
+\end_inset
+
+ cells, 2,400 time-steps for one revolution, monitor 
+\begin_inset Formula $=\max\left(\frac{1}{16}+\frac{||\nabla\nabla\rho||}{3\times10^{-7}},1\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Cone shaped mountain with peak height half the depth of the domain
+\end_layout
+
+\begin_layout Standard
+Relative flux over the bottom boundary
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="48text%">
+<column alignment="center" valignment="top" width="48text%">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Uniform tracer 
+\begin_inset Formula $\phi=\half$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+animategraphics[width=0.48
+\backslash
+linewidth,controls,poster=first]{3}{/home/hilary/OpenFOAM/hilary-dev/AMMM/run/ad
+vection/solidBodyRotationOnPlane/magGradTmonitorMountain/animategraphics/uniT_}{
+0}{12}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+References
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\color black
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "numerics"
+options "plainnat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\end_body
+\end_document

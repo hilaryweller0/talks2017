@@ -1,0 +1,119 @@
+
+\chapter{Finite Differences\label{chap:FD}}
+
+\stepwise{
+
+Partial differential equations (PDEs) such as the Navier-Stokes equations
+can be solved approximately by splitting up space and time into discrete
+points and approximating the gradients using differences. \step{
+
+\begin{minipage}[c]{0.48\columnwidth}%
+\begin{itemize}
+\item For example, if we consider only one-dimensional space (only variations
+in the $x$ direction), then we can divide the space between $x=0$
+and $x=1$ into $N$ equal intervals, each of size $\Delta x$, so
+that $x_{j}=j\Delta x$ for $j=1,2,...,N$. 
+\item We can divide time into time steps $\Delta t$, so that $t_{n}=n\Delta t,~n=0,1,2,...$.\end{itemize}
+%
+\end{minipage}\hfill{}%
+\begin{minipage}[c]{0.45\columnwidth}%
+\resizebox{1\textwidth}{!}{\input{figs/fx.pdftex_t}}%
+\end{minipage}}\step{
+\begin{itemize}
+\item We wish to solve the 1D linear advection equation, ${\textstyle \frac{\partial\phi}{\partial t}+u\frac{\partial\phi}{\partial x}=0}$,
+where $u$ is the known wind speed. \step{
+\item Define $\phi_{j}^{(n)}=\phi(x_{j},t_{n})$, $\frac{\partial\phi}{\partial x}_{j}^{(n)}=\frac{\partial\phi}{\partial x}(x_{j},t_{n})$,
+$\frac{\partial\phi}{\partial t}_{j}^{(n)}=\frac{\partial\phi}{\partial t}(x_{j},t_{n})$.
+}\step{
+\item At time $n$ and position $j$ we can make the following approximations:
+\[
+\frac{\partial\phi}{\partial x}_{j}^{(n)}\approx\opttext{\frac{\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}}{2\Delta x}}\ \ \ \ \ \ \frac{\partial\phi}{\partial t}_{j}^{(n)}\approx\opttext{\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n-1)}}{2\Delta t}}
+\]
+}\step{
+\item These can be substituted into the linear advection equation to give
+\[
+\opttext{\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n-1)}}{2\Delta t}+u\frac{\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}}{2\Delta x}=0}
+\]
+}
+\end{itemize}
+}}
+
+\clearpage{}
+
+\stepwise{
+\begin{itemize}
+\item This can be re-arranged to give $\phi_{j}^{(n+1)}$, $\phi_{j}$ at
+the next time-step as a function of $\phi$s at previous time-steps
+and at adjacent locations. This can be simplified using the Courant
+number, $c=u\Delta t/\Delta x$ to give:
+\[
+\phi_{j}^{(n+1)}=\opttext{\phi_{j}^{(n-1)}-c_{j}\bigl(\phi_{j+1}^{(n)}-\phi_{j-1}^{(n)}\bigr)}
+\]
+\step{
+\item This is the CTCS scheme - Centred in Time, Centred in space, because
+the approximations for $\partial\phi/\partial t$ and $\partial\phi/\partial x$
+are both centred. }\step{
+\item Python code implementing CTCS is given in section \ref{sec:CTCScode}
+}
+\end{itemize}
+}
+
+\clearpage{}
+
+
+\section{Exercises}
+\begin{enumerate}
+\item Find a finite difference formula for the second derivative, $\partial^{2}\phi/\partial x^{2}$,
+on a grid with spacing $\Delta x$ indexed by $j$.
+\item Hence derive the forward in time, centred in space (FTCS) scheme for
+the diffusion equation:
+\[
+\frac{\partial\phi}{\partial t}=K\frac{\partial^{2}\phi}{\partial x^{2}}.
+\]
+
+\item The equation for inertial oscillations given in section \ref{sub:Coriolis}
+is:
+\[
+\frac{\partial\mathbf{u}}{\partial t}=\text{-}2\bm{\Omega}\times\mathbf{u}.
+\]
+Write equations for the horizontal components of $\mathbf{u}$, assuming
+that:
+\[
+\mathbf{u}=\left(\begin{array}{c}
+u\\
+v\\
+w
+\end{array}\right),\ \ \ 2\bm{\Omega}=\left(\begin{array}{c}
+0\\
+0\\
+f
+\end{array}\right).
+\]
+Hence write down a numerical method for integrating $u$ and $v$
+forward in time.
+\item Derive a finite difference scheme for Burger's equation in one dimension:
+\[
+\frac{\partial u}{\partial t}+u\frac{\partial u}{\partial x}=0.
+\]
+
+\end{enumerate}
+\optpage{
+
+
+\subsection{Answers}
+\begin{enumerate}
+\item $\frac{\partial^{2}\phi}{\partial x^{2}}_{j}\approx\frac{\phi_{j+1}-2\phi_{j}+\phi_{j-1}}{\Delta x^{2}}$
+\item $\frac{\phi_{j}^{(n+1)}-\phi_{j}^{(n)}}{\Delta t}\approx\frac{\phi_{j+1}^{(n)}-2\phi_{j}^{(n)}+\phi_{j-1}^{(n)}}{\Delta x^{2}}$
+\item $\partial u/\partial t=fv$, $\partial v/\partial t=-fu$\\
+$u^{(n+1)}=u^{(n)}+\Delta t\ f\ v^{(n)}$\\
+$v^{(n+1)}=v^{(n)}-\Delta t\ f\ u^{(n+1)}$ 
+\item $u_{j}^{(n+1)}=u_{j}^{(n)}-\Delta t\ u_{j}^{(n)}\frac{u_{j}^{(n)}-u_{j-1}^{(n)}}{\Delta x}$
+\end{enumerate}
+}
+
+\clearpage{}
+
+
+\section{Python Code to Solve the Linear Advection Equation using CTCS\label{sec:CTCScode}}
+
+\lstinputlisting[basicstyle={\ttfamily\codeFont},frame=single,language=Python,tabsize=4,showstringspaces=true,basicstyle=\small]{practicals/CTCS.py}
